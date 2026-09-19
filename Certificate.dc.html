@@ -64,7 +64,7 @@ button{font:inherit;cursor:pointer}
         <p style="margin-top:14px;font-size:13.5px;line-height:1.5;color:#323232;max-width:600px;text-wrap:pretty">The learner completed every lesson, the guided POUI scenario and the knowledge check, and demonstrated the course competencies in privacy-safe, human-led use of AI for pastoral work.</p>
 
         <div style="margin-top:18px;display:flex;flex-wrap:wrap;gap:8px 28px;font-size:12.5px;color:#163047">
-          <span><strong style="font-weight:600">1 learning hour</strong></span>
+          <span><strong style="font-weight:600">30 minutes</strong> · self-paced</span>
           <span><strong style="font-weight:600">Foundation</strong> level</span>
           <span><strong style="font-weight:600">Skills</strong> PAUSE framework · AI safeguarding boundaries · Privacy-safe prompting</span>
         </div>
@@ -115,21 +115,46 @@ class Component extends DCLogic {
   qs(k) { try { return new URLSearchParams(location.search).get(k) || ''; } catch (e) { return ''; } }
   componentDidMount() {
   }
-  printPdf() {
+  loadScript(src) {
+    return new Promise((ok, err) => {
+      const ex = document.querySelector('script[src="' + src + '"]');
+      if (ex) { if (ex.dataset.loaded) return ok(); ex.addEventListener('load', ok); ex.addEventListener('error', err); return; }
+      const s = document.createElement('script'); s.src = src; s.async = true;
+      s.onload = () => { s.dataset.loaded = '1'; ok(); }; s.onerror = err; document.head.appendChild(s);
+    });
+  }
+  // Rasterises the certificate and writes a real A4 PDF file — no browser print pipeline (which was crashing Chrome).
+  async printPdf() {
+    if (this.busy) return;
     const node = this.wrap && this.wrap.querySelector('[data-certscale]');
     if (!node) return;
-    const clone = node.cloneNode(true);
-    clone.style.transform = 'none'; clone.style.boxShadow = 'none';
-    const html = '<!doctype html><html><head><meta charset="utf-8"><title>Certificate — Bloom Learning Lab 01</title>' +
-      '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">' +
-      '<style>@page{size:A4 landscape;margin:0}html,body{margin:0;padding:0;background:#fff}body{width:1123px;height:794px;overflow:hidden;font-family:"Open Sans",system-ui,sans-serif;line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact}h1,h2,p{margin:0}</style></head><body>' +
-      clone.outerHTML + '</body></html>';
-    const w = window.open('', '_blank', 'width=1180,height=860');
-    if (!w) { this.setState({ toolNote: 'Pop-up blocked — allow pop-ups for this site, then try again.' }); return; }
-    w.document.open(); w.document.write(html); w.document.close();
-    const go = () => { try { w.focus(); w.print(); } catch (e) {} };
-    if (w.document.fonts && w.document.fonts.ready) w.document.fonts.ready.then(() => setTimeout(go, 150)); else setTimeout(go, 800);
-    this.setState({ toolNote: 'In the print dialog choose “Save as PDF” (A4 landscape is preset).' });
+    this.busy = true;
+    this.setState({ toolNote: 'Preparing your PDF…' });
+    let host;
+    try {
+      await Promise.all([
+        this.loadScript('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js'),
+        this.loadScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js')
+      ]);
+      if (document.fonts && document.fonts.ready) await document.fonts.ready;
+      const clone = node.cloneNode(true);
+      clone.style.transform = 'none'; clone.style.boxShadow = 'none';
+      host = document.createElement('div');
+      host.style.cssText = 'position:absolute;left:-3000px;top:0;width:1123px;height:794px;overflow:hidden;pointer-events:none';
+      host.appendChild(clone); document.body.appendChild(host);
+      const canvas = await window.html2canvas(clone, { scale: 2, useCORS: true, allowTaint: false, backgroundColor: '#FFFDF9', width: 1123, height: 794, logging: false });
+      host.remove(); host = null;
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4', compress: true });
+      pdf.addImage(canvas.toDataURL('image/jpeg', 0.94), 'JPEG', 0, 0, 297, 210);
+      const id = (this.vals().credentialId || 'certificate').replace(/[^A-Za-z0-9-]/g, '');
+      pdf.save('Bloom-Learning-Lab-01-Certificate-' + id + '.pdf');
+      this.setState({ toolNote: 'PDF saved to your downloads (A4 landscape).' });
+    } catch (e) {
+      if (host) host.remove();
+      this.setState({ toolNote: 'Could not generate the PDF — check your connection and try again.' });
+    }
+    this.busy = false;
   }
   componentWillUnmount() { if (this.ro) this.ro.disconnect(); }
   vals() {

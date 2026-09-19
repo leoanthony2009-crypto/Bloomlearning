@@ -32,13 +32,14 @@ button:disabled{opacity:.45;cursor:not-allowed}
 
 <!-- LANDING -->
 <sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
-<div style="max-width:1080px;margin:0 auto;padding:48px 24px 64px;width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:center">
+<div style="max-width:1080px;margin:0 auto;padding:40px 24px 64px;width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:start">
   <div style="display:flex;flex-direction:column;gap:20px">
+    <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}"><div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#e8e2d4"><img src="assets/hero-photo.webp" alt="Laptop and notebook on a desk with the Poui GPT badge — using AI in education" style="width:100%;height:100%;object-fit:cover;display:block"></div></sc-if>
     <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#1F7E7C">Bloom Learning Lab 01</div>
     <h1 style="font-size:clamp(32px,4.4vw,52px)">Exploring AI as a Pastoral Resource</h1>
     <p style="font-size:18px;color:#163047">Opportunities, boundaries &amp; safeguarding for educators</p>
-    <div style="display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:#5b5b5b">
-      <span>30-minute self-paced micro-course</span><span>·</span><span>Trinidad &amp; Tobago / Caribbean education</span><span>·</span><span>BRFS-AI-PAST-01 v1.0</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px 10px;font-size:13px;font-weight:600;color:#163047">
+      <span style="padding:4px 10px;border-radius:999px;border:1px solid rgba(22,48,71,.25);white-space:nowrap">30 min · self-paced</span><span style="padding:4px 10px;border-radius:999px;border:1px solid rgba(22,48,71,.25);white-space:nowrap">Trinidad &amp; Tobago / Caribbean</span><span style="padding:4px 10px;border-radius:999px;border:1px solid rgba(22,48,71,.25);white-space:nowrap;color:#5b5b5b;font-weight:400">BRFS-AI-PAST-01 v1.0</span>
     </div>
     <div style="height:1px;background:linear-gradient(to right,transparent,rgba(22,48,71,.18) 48px,rgba(22,48,71,.18) calc(100% - 48px),transparent)"></div>
     <p style="font-size:17px;text-wrap:pretty">How can AI support pastoral work without replacing the human relationship at its heart? In 30 minutes you'll explore practical uses of generative AI for preparation, reflection, communication and professional learning — and the boundaries that keep children safe.</p>
@@ -71,10 +72,10 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <span style="font-size:12px;padding:4px 10px;border-radius:999px;background:rgba(31,126,124,.12);color:#155e5c;font-weight:600">Certificate</span>
     </div>
   </div>
-  <div style="display:flex;flex-direction:column;gap:16px">
-    <div style="position:relative;width:100%;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#e8e2d4">
+  <div style="{{ landingAsideStyle }}">
+    <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}"><div style="position:relative;width:100%;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#e8e2d4">
       <img src="assets/hero-photo.webp" alt="Laptop and notebook on a desk with the Poui GPT badge — using AI in education" style="width:100%;height:100%;object-fit:cover;display:block">
-    </div>
+    </div></sc-if>
     <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px">
       <div style="border-radius:8px;padding:12px 8px;text-align:center;background:#163047;color:#FFFDF9"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">P</div><div style="font-size:11px;line-height:1.3">Protect privacy</div></div>
       <div style="border-radius:8px;padding:12px 8px;text-align:center;background:#1F7E7C;color:#FFFDF9"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">A</div><div style="font-size:11px;line-height:1.3">Ask why</div></div>
@@ -82,6 +83,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <div style="border-radius:8px;padding:12px 8px;text-align:center;background:#5A8F63;color:#FFFDF9"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">S</div><div style="font-size:11px;line-height:1.3">Safeguard</div></div>
       <div style="border-radius:8px;padding:12px 8px;text-align:center;background:#B7832F;color:#FFFDF9"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">E</div><div style="font-size:11px;line-height:1.3">Ensure connection</div></div>
     </div>
+    <p style="font-size:13px;line-height:1.5;color:#5b5b5b;text-wrap:pretty;margin:0"><strong style="font-family:'Poppins',sans-serif;font-weight:600;color:#163047">PAUSE</strong> is the five-step safe-use framework at the heart of this course.</p>
     <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px">
       <a href="https://chatgpt.com/g/g-696d4b9b682c8191b00cce3da28a61bc-poui-gpt-1-3" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 20px;border-radius:8px;border:1px solid #1F7E7C;color:#1F7E7C;background:transparent;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;text-decoration:none" style-hover="background:rgba(31,126,124,.08)">Try POUI GPT<svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224 104a8 8 0 0 1-16 0V59.3l-66.3 66.4a8 8 0 0 1-11.4-11.4L196.7 48H152a8 8 0 0 1 0-16h64a8 8 0 0 1 8 8Zm-40 24a8 8 0 0 0-8 8v72H48V80h72a8 8 0 0 0 0-16H48a16 16 0 0 0-16 16v128a16 16 0 0 0 16 16h128a16 16 0 0 0 16-16v-72a8 8 0 0 0-8-8Z"/></svg></a>
       <span style="font-size:13px;color:#5b5b5b;flex:1;min-width:160px">POUI is a pastoral AI GPT. Ensure your school's acceptable-use policy permits it. Opens in a new tab.</span>
@@ -282,7 +284,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
       <div style="display:flex;flex-wrap:wrap;gap:8px">
         <sc-for list="{{ orderOpts }}" as="o" hint-placeholder-count="5"><button onClick="{{ o.pick }}" disabled="{{ o.used }}" style="{{ o.style }}" style-hover="background:rgba(31,126,124,.1)">{{ o.label }}</button></sc-for>
       </div>
-      <sc-if value="{{ orderMiss }}"><p role="alert" style="font-size:14px;color:#8a2f22">Not quite — that step comes later. Sequence reset: start again from P.</p></sc-if>
+      <sc-if value="{{ orderMiss }}"><p role="alert" style="font-size:14px;color:#8a2f22">{{ orderMissText }}</p></sc-if>
       <sc-if value="{{ orderDone }}"><p style="font-size:14px;color:#2f5a37;font-weight:600">All five in order. Privacy and purpose come before the prompt; judgement, safeguarding and connection come after the output.</p></sc-if>
     </div>
   </sc-if>
@@ -374,9 +376,9 @@ button:disabled{opacity:.45;cursor:not-allowed}
         <div style="{{ h.cardStyle }}">
           <div style="font-size:16px;color:#163047;font-weight:600;flex:1;min-width:200px">{{ h.text }}</div>
           <div role="group" aria-label="Classify" style="display:flex;flex-wrap:wrap;gap:6px">
-            <button onClick="{{ h.pickAi }}" aria-pressed="{{ h.isAi }}" style="{{ h.aiStyle }}">AI may assist</button>
-            <button onClick="{{ h.pickHuman }}" aria-pressed="{{ h.isHuman }}" style="{{ h.humanStyle }}">Human process</button>
-            <button onClick="{{ h.pickNo }}" aria-pressed="{{ h.isNo }}" style="{{ h.noStyle }}">Not appropriate</button>
+            <button onClick="{{ h.pickAi }}" aria-pressed="{{ h.isAi }}" style="{{ h.aiStyle }}" style-hover="border-color:#1F7E7C">AI may assist</button>
+            <button onClick="{{ h.pickHuman }}" aria-pressed="{{ h.isHuman }}" style="{{ h.humanStyle }}" style-hover="border-color:#1F7E7C">Human process</button>
+            <button onClick="{{ h.pickNo }}" aria-pressed="{{ h.isNo }}" style="{{ h.noStyle }}" style-hover="border-color:#1F7E7C">Not appropriate</button>
           </div>
           <sc-if value="{{ h.picked }}"><div style="flex-basis:100%;font-size:14px;color:{{ h.fbColor }}">{{ h.feedback }}</div></sc-if>
         </div>
@@ -490,7 +492,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
         <h3 style="font-size:18px">To complete this micro-course</h3>
         <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:15px">
           <li style="display:flex;gap:10px;align-items:center"><span style="{{ req1Style }}">1</span>Work through all {{ lessonCount }} lessons <span style="color:#5b5b5b">({{ completedCount }}/{{ lessonCount }})</span></li>
-          <li style="display:flex;gap:10px;align-items:center"><span style="{{ req2Style }}">2</span>Complete the POUI fictional scenario <span style="color:#5b5b5b">({{ pouiRevealedCount }}/5 revealed — tap “Reveal model response” on each prompt)</span> <button onClick="{{ goPoui }}" style="padding:4px 12px;border-radius:999px;border:1px solid #1F7E7C;background:transparent;color:#1F7E7C;font-family:'Poppins',sans-serif;font-weight:600;font-size:12px" style-hover="background:rgba(31,126,124,.08)">Go to scenario</button></li>
+          <li style="display:flex;gap:10px;align-items:center"><span style="{{ req2Style }}">2</span>Complete the POUI fictional scenario <span style="color:#5b5b5b">({{ pouiRevealedCount }}/5 revealed — tap “Reveal model thinking” on each prompt)</span> <button onClick="{{ goPoui }}" style="padding:4px 12px;border-radius:999px;border:1px solid #1F7E7C;background:transparent;color:#1F7E7C;font-family:'Poppins',sans-serif;font-weight:600;font-size:12px" style-hover="background:rgba(31,126,124,.08)">Go to scenario</button></li>
           <li style="display:flex;gap:10px;align-items:center"><span style="{{ req3Style }}">3</span>Finish the five-question knowledge check <span style="color:#5b5b5b">({{ quizRevealedCount }}/5 · Q2 and Q4 must be correct)</span> <button onClick="{{ goQuiz }}" style="padding:4px 12px;border-radius:999px;border:1px solid #1F7E7C;background:transparent;color:#1F7E7C;font-family:'Poppins',sans-serif;font-weight:600;font-size:12px" style-hover="background:rgba(31,126,124,.08)">Go to knowledge check</button></li>
           <li style="display:flex;gap:10px;align-items:center"><span style="{{ req4Style }}">4</span>Submit one safe-use commitment</li>
         </ul>
@@ -549,30 +551,30 @@ button:disabled{opacity:.45;cursor:not-allowed}
     <div data-noprint="1" style="display:flex;flex-direction:column;gap:10px;max-width:820px">
       <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#1F7E7C">Resources</div>
       <h1 style="font-size:clamp(26px,3.2vw,36px)">PAUSE poster &amp; participant handout</h1>
-      <p style="font-size:16px;color:#163047">Choose a view, then print or save as PDF (A4).</p>
+      <p style="font-size:16px;color:#163047">Choose a view, then download it as an A4 PDF.</p>
       <div role="tablist" style="display:inline-flex;border:1px solid rgba(22,48,71,.3);border-radius:8px;overflow:hidden;align-self:flex-start">
         <button role="tab" aria-selected="{{ isPoster }}" onClick="{{ showPoster }}" style="{{ posterTabStyle }}">PAUSE poster</button>
         <button role="tab" aria-selected="{{ isHandout }}" onClick="{{ showHandout }}" style="{{ handoutTabStyle }}">A4 handout</button>
       </div>
-      <button onClick="{{ printPage }}" style="align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:8px;border:1px solid #1F7E7C;background:transparent;color:#1F7E7C;font-family:'Poppins',sans-serif;font-weight:600;font-size:13px" style-hover="background:rgba(31,126,124,.1)">Print / save as PDF</button>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px"><button onClick="{{ printPage }}" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 18px;border-radius:8px;border:1px solid #1F7E7C;background:transparent;color:#1F7E7C;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px" style-hover="background:rgba(31,126,124,.1)"><svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224 152v56a16 16 0 0 1-16 16H48a16 16 0 0 1-16-16v-56a8 8 0 0 1 16 0v56h160v-56a8 8 0 0 1 16 0Zm-101.7 5.7a8 8 0 0 0 11.4 0l40-40a8 8 0 0 0-11.4-11.4L136 132.7V40a8 8 0 0 0-16 0v92.7l-26.3-26.4a8 8 0 0 0-11.4 11.4Z"/></svg>Download PDF (A4)</button><span style="font-size:13px;color:#5b5b5b">{{ pdfNote }}</span></div>
     </div>
     <sc-if value="{{ isPoster }}">
-      <div data-printroot="1" style="width:100%;max-width:794px;aspect-ratio:210/297;background:#FFFDF9;border:1px solid rgba(22,48,71,.2);border-top:12px solid #1F7E7C;padding:6% 7%;display:flex;flex-direction:column;gap:3%">
-        <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(9px,1.3vw,12px);letter-spacing:.14em;text-transform:uppercase;color:#1F7E7C">Bloom Learning Lab 01</div>
-        <h2 style="font-size:clamp(24px,5vw,44px);letter-spacing:.3em">PAUSE</h2>
-        <p style="font-size:clamp(12px,1.8vw,17px);color:#163047">before using AI for pastoral work</p>
+      <div data-printroot="1" style="container-type:inline-size;width:100%;max-width:794px;aspect-ratio:210/297;background:#FFFDF9;border:1px solid rgba(22,48,71,.2);border-top:12px solid #1F7E7C;padding:6% 7%;display:flex;flex-direction:column;gap:3%">
+        <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(9px,1.3cqw,12px);letter-spacing:.14em;text-transform:uppercase;color:#1F7E7C">Bloom Learning Lab 01</div>
+        <h2 style="font-size:clamp(24px,5cqw,44px);letter-spacing:.3em">PAUSE</h2>
+        <p style="font-size:clamp(12px,1.8cqw,17px);color:#163047">before using AI for pastoral work</p>
         <div style="flex:1;display:flex;flex-direction:column;gap:2.5%">
-          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#163047;color:#FFFDF9"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5vw,48px)">P</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2vw,19px)">Protect privacy</div><div style="font-size:clamp(9px,1.4vw,13px);opacity:.9">Never enter identifiable or sensitive student information.</div></div></div>
-          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#1F7E7C;color:#FFFDF9"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5vw,48px)">A</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2vw,19px)">Ask why AI is needed</div><div style="font-size:clamp(9px,1.4vw,13px);opacity:.9">Preparation, reflection, generic resources, practice — not diagnosis or decisions.</div></div></div>
-          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#CD9B34;color:#1b1b1b"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5vw,48px)">U</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2vw,19px)">Use professional judgement</div><div style="font-size:clamp(9px,1.4vw,13px);opacity:.9">Output is a suggestion to evaluate — check against approved guidance.</div></div></div>
-          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#5A8F63;color:#FFFDF9"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5vw,48px)">S</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2vw,19px)">Safeguard through human systems</div><div style="font-size:clamp(9px,1.4vw,13px);opacity:.9">Any concern about harm: follow approved procedure immediately.</div></div></div>
-          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#B7832F;color:#FFFDF9"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5vw,48px)">E</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2vw,19px)">Ensure human connection remains central</div><div style="font-size:clamp(9px,1.4vw,13px);opacity:.9">AI supports behind the scenes. The trusted adult leads.</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#163047;color:#FFFDF9"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5cqw,48px)">P</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2cqw,19px)">Protect privacy</div><div style="font-size:clamp(9px,1.4cqw,13px);opacity:.9">Never enter identifiable or sensitive student information.</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#1F7E7C;color:#FFFDF9"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5cqw,48px)">A</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2cqw,19px)">Ask why AI is needed</div><div style="font-size:clamp(9px,1.4cqw,13px);opacity:.9">Preparation, reflection, generic resources, practice — not diagnosis or decisions.</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#CD9B34;color:#1b1b1b"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5cqw,48px)">U</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2cqw,19px)">Use professional judgement</div><div style="font-size:clamp(9px,1.4cqw,13px);opacity:.9">Output is a suggestion to evaluate — check against approved guidance.</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#5A8F63;color:#FFFDF9"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5cqw,48px)">S</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2cqw,19px)">Safeguard through human systems</div><div style="font-size:clamp(9px,1.4cqw,13px);opacity:.9">Any concern about harm: follow approved procedure immediately.</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#B7832F;color:#FFFDF9"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5cqw,48px)">E</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2cqw,19px)">Ensure human connection remains central</div><div style="font-size:clamp(9px,1.4cqw,13px);opacity:.9">AI supports behind the scenes. The trusted adult leads.</div></div></div>
         </div>
-        <div style="display:flex;justify-content:space-between;gap:10px;font-size:clamp(8px,1.2vw,11px);color:#5b5b5b"><span style="font-family:'Poppins',sans-serif;font-weight:600;color:#163047">AI supports. Humans lead.</span><span>BRFS-AI-PAST-01 v1.0</span></div>
+        <div style="display:flex;justify-content:space-between;gap:10px;font-size:clamp(8px,1.2cqw,11px);color:#5b5b5b"><span style="font-family:'Poppins',sans-serif;font-weight:600;color:#163047">AI supports. Humans lead.</span><span>BRFS-AI-PAST-01 v1.0</span></div>
       </div>
     </sc-if>
     <sc-if value="{{ isHandout }}">
-      <div data-printroot="1" style="width:100%;max-width:794px;background:#FFFDF9;border:1px solid rgba(22,48,71,.2);border-top:12px solid #1F7E7C;padding:40px 44px;display:flex;flex-direction:column;gap:18px;font-size:12.5px;line-height:1.5">
+      <div data-printroot="1" style="container-type:inline-size;width:100%;max-width:794px;background:#FFFDF9;border:1px solid rgba(22,48,71,.2);border-top:12px solid #1F7E7C;padding:40px 44px;display:flex;flex-direction:column;gap:18px;font-size:12.5px;line-height:1.5">
         <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#1F7E7C">Bloom Learning Lab 01 · Participant handout</span><span style="font-size:11px;color:#5b5b5b">BRFS-AI-PAST-01 v1.0</span></div>
         <h2 style="font-size:24px">Exploring AI as a Pastoral Resource</h2>
         <p style="color:#163047;font-size:13px">Use AI to strengthen the educator's thinking — never to replace the educator's responsibility. <strong>AI supports. Humans lead.</strong></p>
@@ -640,7 +642,7 @@ const LESSONS = [
   { id: 'quiz', mod: 5, mins: 3, title: 'Knowledge check', intro: 'Five questions, one attempt each. Choose the safest and most appropriate answer, then reveal. Questions 2 and 4 are critical privacy and safeguarding items and must be correct to complete.', outcomes: ['Apply the PAUSE framework to short cases', 'Demonstrate the two non-negotiables: protect privacy, follow safeguarding procedure'], takeaway: 'Completion requires both critical items correct, with re-teaching where necessary. 80% overall is the recommended standard.' },
   { id: 'results', mod: 5, mins: 1, title: 'Your results', intro: 'Your score against the recommended standard, with the two critical items flagged.', outcomes: ['Review your result and any re-teaching needed'], takeaway: 'Completion means understanding — not just a score. Re-check any critical item you missed.' },
   { id: 'commit', mod: 5, mins: 2, title: 'One safe practice', intro: 'Turn the course into one concrete, appropriate action for this month — and name the PAUSE step you most need to remember.', outcomes: ['Commit to one appropriate AI-supported pastoral practice', 'Choose your PAUSE anchor'], takeaway: 'Use AI to strengthen your thinking — never to replace your responsibility.' },
-  { id: 'cert', mod: 5, mins: 1, title: 'Completion certificate', intro: 'Your record of completing the micro-course. It records completion only — not a clinical, counselling or safeguarding-specialist competence.', outcomes: ['Confirm every completion step', 'Print or save your certificate'], takeaway: 'AI supports. Humans lead. Protect privacy · Use professional judgement · Safeguard through human systems · Keep relationships at the centre.' }
+  { id: 'cert', mod: 5, mins: 1, title: 'Completion certificate', intro: 'Your record of completing the micro-course. It records completion only — not a clinical, counselling or safeguarding-specialist competence.', outcomes: ['Confirm every completion step', 'Download your certificate'], takeaway: 'AI supports. Humans lead. Protect privacy · Use professional judgement · Safeguard through human systems · Keep relationships at the centre.' }
 ];
 const POUI = [
   { q: 'What do you actually know from the information provided?', hint: 'List only what has been directly observed. Leave out anything that explains why.', model: 'We know only the observable changes: lateness on several occasions, missed assignments, reduced participation and a quieter manner. We do not know the cause. Nothing here tells us about home, health or risk.' },
@@ -707,6 +709,35 @@ class Component extends DCLogic {
     if (!id) { let n = 1; try { n = (parseInt(localStorage.getItem(KEY + '-seq'), 10) || 0) + 1; localStorage.setItem(KEY + '-seq', String(n)); } catch (e) {} id = 'BLL01-L' + String(n).padStart(4, '0'); }
     this._issuing = false; this.setState({ credId: id });
   }
+  loadScript(src) {
+    return new Promise((ok, err) => {
+      const ex = document.querySelector('script[src="' + src + '"]');
+      if (ex) { if (ex.dataset.loaded) return ok(); ex.addEventListener('load', ok); ex.addEventListener('error', err); return; }
+      const s = document.createElement('script'); s.src = src; s.async = true;
+      s.onload = () => { s.dataset.loaded = '1'; ok(); }; s.onerror = err; document.head.appendChild(s);
+    });
+  }
+  // Rasterise the visible poster/handout and write a real A4 portrait PDF — avoids the browser print pipeline.
+  async exportResourcePdf() {
+    if (this._pdfBusy) return;
+    const node = document.querySelector('[data-printroot]'); if (!node) return;
+    this._pdfBusy = true; this.setState({ pdfNote: 'Preparing your PDF…' });
+    let host;
+    try {
+      await Promise.all([this.loadScript('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js'), this.loadScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js')]);
+      if (document.fonts && document.fonts.ready) await document.fonts.ready;
+      const clone = node.cloneNode(true); clone.style.width = '794px'; clone.style.maxWidth = '794px'; clone.style.border = '0'; clone.style.borderTop = '12px solid #1F7E7C';
+      host = document.createElement('div'); host.style.cssText = 'position:absolute;left:-3000px;top:0;width:794px;pointer-events:none'; host.appendChild(clone); document.body.appendChild(host);
+      const canvas = await window.html2canvas(clone, { scale: 2, useCORS: true, backgroundColor: '#FFFDF9', logging: false });
+      host.remove(); host = null;
+      const { jsPDF } = window.jspdf; const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: true });
+      const W = 210, H = 297; let w = W, h = W * canvas.height / canvas.width; if (h > H) { h = H; w = H * canvas.width / canvas.height; }
+      pdf.addImage(canvas.toDataURL('image/jpeg', 0.94), 'JPEG', (W - w) / 2, 0, w, h);
+      pdf.save(this.state.resTab === 'poster' ? 'Bloom-PAUSE-poster.pdf' : 'Bloom-PAUSE-handout.pdf');
+      this.setState({ pdfNote: 'PDF saved to your downloads.' });
+    } catch (e) { if (host) host.remove(); this.setState({ pdfNote: 'Could not generate the PDF — check your connection and try again.' }); }
+    this._pdfBusy = false;
+  }
   setPoui(i, patch) { this.setState(s => ({ poui: { ...s.poui, [i]: { ...(s.poui[i] || {}), ...patch } } })); }
   setQuiz(i, patch) { this.setState(s => ({ quiz: { ...s.quiz, [i]: { ...(s.quiz[i] || {}), ...patch } } })); }
   renderVals() {
@@ -755,7 +786,7 @@ class Component extends DCLogic {
     const ORDER_SHUFFLE = ['U', 'E', 'P', 'S', 'A'];
     const orderDone = s.order.length === 5;
     const SHORT = { P: 'Protect privacy', A: 'Ask why', U: 'Use judgement', S: 'Safeguard', E: 'Ensure connection' };
-    const orderOpts = ORDER_SHUFFLE.map(letter => { const used = s.order.includes(letter); return { label: letter + ' — ' + SHORT[letter], used, style: pill(used) + ';white-space:nowrap;min-height:40px' + (used ? ';opacity:.55' : ''), pick: () => this.setState(prev => { const expected = 'PAUSE'[prev.order.length]; return letter === expected ? { order: [...prev.order, letter], orderMiss: false } : { order: [], orderMiss: true }; }) }; });
+    const orderOpts = ORDER_SHUFFLE.map(letter => { const used = s.order.includes(letter); return { label: letter + ' — ' + SHORT[letter], used, style: pill(used) + ';white-space:nowrap;min-height:40px' + (used ? ';opacity:.55' : ''), pick: () => this.setState(prev => { const expected = 'PAUSE'[prev.order.length]; return letter === expected ? { order: [...prev.order, letter], orderMiss: false } : { order: [], orderMiss: true, orderMissLetter: expected }; }) }; });
     const orderSlots = 'PAUSE'.split('').map((L, i) => { const got = s.order[i]; return { letter: got || '·', style: 'width:44px;height:44px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-family:' + FONT_H + ';font-weight:600;font-size:18px;' + (got ? 'background:#163047;color:#FFFDF9' : 'border:1.5px dashed rgba(22,48,71,.35);color:#9a9a9a') }; });
     // Human or AI
     const haiBtn = (cat, pick, correct) => {
@@ -835,7 +866,7 @@ class Component extends DCLogic {
       startOver: () => { this.setState({ name: '', nameDraft: '', openingNote: '', forget: '', completed: {}, poui: {}, hai: {}, quiz: {}, commit: '', commitStep: '', credId: '', order: [], orderMiss: false, rating: { stars: 0, useful: '', text: '', sent: false, synced: false } }); },
       goLanding: () => this.go('landing'), goPoui: () => this.go('poui'), goResources: () => this.go('resources'), goQuiz: () => this.go('quiz'),
       completedCount, lessonCount: LESSONS.length, progressPct, progressBarStyle: `height:100%;width:${progressPct}%;background:#1F7E7C;border-radius:999px;transition:width .3s`,
-      narrow: s.narrow, showSidebar: !s.narrow || s.menuOpen, showScrim: s.narrow && s.menuOpen, toggleMenu: () => this.setState(st => ({ menuOpen: !st.menuOpen })),
+      narrow: s.narrow, wide: !s.narrow, landingAsideStyle: 'display:flex;flex-direction:column;gap:16px;' + (s.narrow ? '' : 'position:sticky;top:24px'), showSidebar: !s.narrow || s.menuOpen, showScrim: s.narrow && s.menuOpen, toggleMenu: () => this.setState(st => ({ menuOpen: !st.menuOpen })),
       sidebarStyle: 'display:flex;flex-direction:column;gap:14px;padding:20px 12px;background:#FFFDF9;border-right:1px solid rgba(22,48,71,.12);overflow-y:auto;' + (s.narrow ? 'position:fixed;top:0;left:0;bottom:0;width:300px;max-width:85vw;z-index:9;box-shadow:0 12px 40px rgba(22,48,71,.25)' : 'width:280px;flex-shrink:0;position:sticky;top:75px;align-self:flex-start;max-height:calc(100vh - 75px)'),
       resourcesStyle: 'display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:8px 10px;border:0;border-radius:8px;font-size:14px;cursor:pointer;' + (s.screen === 'resources' ? 'background:rgba(31,126,124,.12);color:#163047;font-weight:600' : 'background:transparent;color:#1F7E7C;font-weight:600'),
       modules,
@@ -848,6 +879,7 @@ class Component extends DCLogic {
       forgetOpts, forgetPicked: !!s.forget,
       pouiQs, pouiRevealedCount, pouiDots,
       orderOpts, orderSlots, orderDone, orderMiss: s.orderMiss && !orderDone,
+      orderMissText: s.orderMissLetter ? `Not quite — the next step is ${s.orderMissLetter} (${SHORT[s.orderMissLetter]}). Sequence reset: start again from P.` : 'Not quite — that step comes later. Sequence reset: start again from P.',
       hasOpeningNote: s.openingNote.trim().length > 0,
       haiItems, haiScore: haiDone ? `${haiRight}/${haiDone} correct` : '',
       quizItems, quizScore, quizPct: quizScore * 20, quizRevealedCount, quizIncomplete: !quizAll, quizSummary,
@@ -857,8 +889,8 @@ class Component extends DCLogic {
       commit: s.commit, onCommit: e => this.setState({ commit: e.target.value }), commitOpts, stepOpts, commitStepLabel: stepLabel ? stepLabel[0] + ' — ' + stepLabel[1] : '—',
       certLocked: !certReady, certReady, credId: s.credId || 'BLL01-000000', req1Style: req(allLessons), req2Style: req(pouiRevealedCount === 5), req3Style: req(quizAll && critPass), req4Style: req(commitOk),
       today: new Date().toLocaleDateString('en-TT', { day: 'numeric', month: 'long', year: 'numeric' }),
-      printPage: () => window.print(),
-      isPoster: s.resTab === 'poster', isHandout: s.resTab === 'handout', showPoster: () => this.setState({ resTab: 'poster' }), showHandout: () => this.setState({ resTab: 'handout' }),
+      printPage: () => this.exportResourcePdf(), pdfNote: s.pdfNote || '',
+      isPoster: s.resTab === 'poster', isHandout: s.resTab === 'handout', showPoster: () => this.setState({ resTab: 'poster', pdfNote: '' }), showHandout: () => this.setState({ resTab: 'handout', pdfNote: '' }),
       posterTabStyle: tab(s.resTab === 'poster'), handoutTabStyle: tab(s.resTab === 'handout')
     };
   }
