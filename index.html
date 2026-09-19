@@ -6,6 +6,7 @@
 <script src="./support.js"></script>
 </head>
 <body>
+<form name="course-rating" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden><input type="hidden" name="form-name" value="course-rating"><input name="bot-field"><input name="name"><input name="stars"><input name="useful"><textarea name="text"></textarea><input name="credId"><input name="course"></form>
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -693,7 +694,7 @@ class Component extends DCLogic {
     if (e) e.preventDefault();
     const r = this.state.rating; if (!r.stars) return;
     let synced = false;
-    try { const res = await fetch('/api/rate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ name: this.state.name, stars: r.stars, useful: r.useful, text: r.text, credId: this.state.credId }) }); synced = res.ok; } catch (e2) {}
+    try { const body = new URLSearchParams({ 'form-name': 'course-rating', name: this.state.name, stars: String(r.stars), useful: r.useful, text: r.text, credId: this.state.credId, course: 'BRFS-AI-PAST-01 v1.0' }); const res = await fetch('/', { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: body.toString() }); synced = res.ok; } catch (e2) {}
     this.setState(st => ({ rating: { ...st.rating, sent: true, synced } }));
     window.scrollTo(0, 0);
   }
