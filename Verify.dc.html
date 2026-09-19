@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#F4F1EA;color:#323232;font-family:'Open Sans',system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,p{margin:0}
+a{color:#1F7E7C;text-underline-offset:3px}
+a:hover{color:#163047}
+button,input{font:inherit}
+:focus{outline:none}
+:focus-visible{outline:2px solid #1F7E7C;outline-offset:2px}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column">
+  <div style="height:10px;background:#1F7E7C"></div>
+  <div style="max-width:720px;width:100%;margin:0 auto;padding:48px 24px 72px;display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;align-items:center;gap:12px">
+      <svg width="34" height="34" viewBox="0 0 500 500" aria-hidden="true"><polygon points="250,22 452,137 452,363 250,478 48,363 48,137" fill="#1F7E7C"/><rect x="196" y="160" width="42" height="180" rx="14" fill="#FFFDF9"/><rect x="262" y="160" width="42" height="180" rx="14" fill="#FFFDF9"/></svg>
+      <div style="display:flex;flex-direction:column"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;color:#163047">Bloom Learning Lab</span><span style="font-size:11px;color:#5b5b5b;letter-spacing:.08em;text-transform:uppercase">Credential verification</span></div>
+    </div>
+    <h1 style="font-size:clamp(26px,3.4vw,36px)">Verify a certificate</h1>
+    <form onSubmit="{{ onSubmit }}" style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end">
+      <label style="display:flex;flex-direction:column;gap:6px;flex:1;min-width:220px;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px;color:#163047">Credential ID
+        <input value="{{ draft }}" onChange="{{ onDraft }}" placeholder="BLL01-XXXXXX" autocapitalize="characters" spellcheck="false" style="padding:10px 14px;border-radius:8px;border:1px solid rgba(22,48,71,.3);background:#fff;font-size:16px;letter-spacing:.06em;font-family:'Open Sans',sans-serif;font-weight:400;color:#323232"></label>
+      <button type="submit" style="min-height:44px;padding:10px 20px;border-radius:8px;border:1px solid #1F7E7C;background:#1F7E7C;color:#FFFDF9;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px;cursor:pointer" style-hover="background:#163047;border-color:#163047">Check</button>
+    </form>
+
+    <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}"><p style="color:#5b5b5b">Checking…</p></sc-if>
+
+    <sc-if value="{{ valid }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:26px 28px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(90,143,99,.6);border-top:6px solid #5A8F63;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:center;gap:10px;color:#2f5a37;font-family:'Poppins',sans-serif;font-weight:600;font-size:18px"><svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128 24a104 104 0 1 0 104 104A104.1 104.1 0 0 0 128 24Zm45.7 85.7-56 56a8 8 0 0 1-11.4 0l-24-24a8 8 0 0 1 11.4-11.4L112 148.7l50.3-50.4a8 8 0 0 1 11.4 11.4Z"/></svg>Valid credential</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 24px;font-size:15px">
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5b5b5b">Recipient</span><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:20px;color:#163047">{{ rec.recipient }}</span></div>
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5b5b5b">Credential ID</span><span style="font-weight:600;color:#163047">{{ rec.id }}</span></div>
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5b5b5b">Course</span><span style="color:#163047">{{ rec.course }}</span><span style="font-size:13px;color:#5b5b5b">{{ rec.courseCode }}</span></div>
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5b5b5b">Issued</span><span style="color:#163047">{{ rec.issueDate }}</span><span style="font-size:13px;color:#5b5b5b">No expiration</span></div>
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5b5b5b">Issuer</span><span style="color:#163047">{{ rec.issuer }}</span></div>
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5b5b5b">Level · hours</span><span style="color:#163047">{{ rec.level }} · {{ rec.hours }} learning hour</span></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ skills }}" as="sk" hint-placeholder-count="3"><span style="font-size:13px;padding:5px 12px;border-radius:999px;background:rgba(31,126,124,.12);color:#155e5c;font-weight:600">{{ sk }}</span></sc-for></div>
+        <p style="font-size:12.5px;color:#5b5b5b">Records course completion only; does not confer clinical, counselling, safeguarding-specialist or regulated professional competence.</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ revoked }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:22px 26px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(176,73,58,.5);border-top:6px solid #B0493A;display:flex;flex-direction:column;gap:6px">
+        <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:18px;color:#8a2f22">Credential revoked</div>
+        <p style="font-size:15px">{{ rec.id }} was issued to {{ rec.recipient }} but has since been revoked by the issuer.</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ notFound }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:22px 26px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(205,155,52,.6);border-top:6px solid #CD9B34;display:flex;flex-direction:column;gap:6px">
+        <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:18px;color:#6e4f12">No record found</div>
+        <p style="font-size:15px;text-wrap:pretty">{{ notFoundMsg }}</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ offline }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:22px 26px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(22,48,71,.2);display:flex;flex-direction:column;gap:6px">
+        <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:18px">Verification service unavailable</div>
+        <p style="font-size:15px">The lookup service did not respond. This page works once the course is deployed to Netlify with its functions enabled.</p>
+      </div>
+    </sc-if>
+
+    <p style="font-size:13px;color:#5b5b5b;text-wrap:pretty">Questions about a credential? Contact Bloom Learning Lab quoting the credential ID.</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { draft: '', status: 'idle', rec: null, reason: '' };
+  componentDidMount() {
+    const id = new URLSearchParams(location.search).get('id');
+    if (id) { this.setState({ draft: id.toUpperCase() }); this.lookup(id); }
+  }
+  async lookup(raw) {
+    const id = String(raw || '').trim().toUpperCase();
+    if (!id) return;
+    this.setState({ status: 'loading', rec: null });
+    if (/-L\d+$/.test(id)) { this.setState({ status: 'notfound', reason: 'local' }); return; }
+    try {
+      const r = await fetch('/api/verify?id=' + encodeURIComponent(id), { cache: 'no-store' });
+      if (r.status === 404) { const j = await r.json().catch(() => ({})); this.setState({ status: 'notfound', reason: j.reason || 'unknown' }); return; }
+      if (!r.ok) throw new Error(r.status);
+      const j = await r.json();
+      this.setState({ status: j.status === 'revoked' ? 'revoked' : 'valid', rec: j });
+    } catch (e) { this.setState({ status: 'offline' }); }
+  }
+  renderVals() {
+    const s = this.state;
+    const msg = { local: 'This ID ends in “-L”, which marks a certificate generated on a device without a connection to the issuing service. It is a completion record but is not registered online.', malformed: 'That does not look like a Bloom Learning Lab credential ID. IDs have the form BLL01-XXXXXX.', unknown: 'No credential with this ID has been issued by Bloom Learning Lab.' };
+    return {
+      draft: s.draft, onDraft: e => this.setState({ draft: e.target.value }),
+      onSubmit: e => { e.preventDefault(); const id = s.draft.trim().toUpperCase(); history.replaceState(null, '', '?id=' + encodeURIComponent(id)); this.lookup(id); },
+      loading: s.status === 'loading', valid: s.status === 'valid', revoked: s.status === 'revoked', notFound: s.status === 'notfound', offline: s.status === 'offline',
+      rec: s.rec || {}, skills: (s.rec && s.rec.skills) || [], notFoundMsg: msg[s.reason] || msg.unknown
+    };
+  }
+}
+</script>
+</body>
+</html>

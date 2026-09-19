@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:#F4F1EA;color:#323232;font-family:'Open Sans',system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{margin:0;font-family:'Poppins',system-ui,sans-serif;font-weight:600;line-height:1.15;letter-spacing:-0.01em;color:#163047}
+p{margin:0}
+a{color:#1F7E7C;text-underline-offset:3px}
+a:hover{color:#163047}
+button{font:inherit;cursor:pointer}
+input,textarea,select{font:inherit;color:#323232}
+:focus{outline:none}
+:focus-visible{outline:2px solid #1F7E7C;outline-offset:2px}
+::selection{background:rgba(31,126,124,.22)}
+button:disabled{opacity:.45;cursor:not-allowed}
+@media print{[data-noprint]{display:none!important}[data-printroot]{display:block!important;padding:0!important}body{background:#fff}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column">
+<div data-noprint="1" style="height:10px;background:#1F7E7C"></div>
+
+<!-- LANDING -->
+<sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+<div style="max-width:1080px;margin:0 auto;padding:48px 24px 64px;width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;align-items:center">
+  <div style="display:flex;flex-direction:column;gap:20px">
+    <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#1F7E7C">Bloom Learning Lab 01</div>
+    <h1 style="font-size:clamp(32px,4.4vw,52px)">Exploring AI as a Pastoral Resource</h1>
+    <p style="font-size:18px;color:#163047">Opportunities, boundaries &amp; safeguarding for educators</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:#5b5b5b">
+      <span>30-minute self-paced micro-course</span><span>·</span><span>Trinidad &amp; Tobago / Caribbean education</span><span>·</span><span>BRFS-AI-PAST-01 v1.0</span>
+    </div>
+    <div style="height:1px;background:linear-gradient(to right,transparent,rgba(22,48,71,.18) 48px,rgba(22,48,71,.18) calc(100% - 48px),transparent)"></div>
+    <p style="font-size:17px;text-wrap:pretty">How can AI support pastoral work without replacing the human relationship at its heart? In 30 minutes you'll explore practical uses of generative AI for preparation, reflection, communication and professional learning — and the boundaries that keep children safe.</p>
+    <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:22px;color:#163047;letter-spacing:.02em">AI supports. Humans lead.</div>
+    <sc-if value="{{ hasName }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:12px;padding:20px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px">
+        <div style="font-size:15px">Welcome back, <strong>{{ name }}</strong>. You've completed {{ completedCount }} of {{ lessonCount }} lessons.</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button onClick="{{ resume }}" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:8px;border:1px solid #1F7E7C;background:#1F7E7C;color:#FFFDF9;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px" style-hover="background:#163047;border-color:#163047">Resume course</button>
+          <button onClick="{{ startOver }}" style="padding:10px 18px;border-radius:8px;border:1px solid rgba(22,48,71,.3);background:transparent;color:#163047;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px" style-hover="background:rgba(22,48,71,.06)">Clear my progress &amp; notes</button>
+        </div>
+        <div style="font-size:13px;color:#5b5b5b">Your name, notes and answers are stored only in this browser. On a shared staff device, clear them when you finish.</div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ noName }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:10px;padding:20px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px">
+        <label for="learner-name" style="font-family:'Poppins',sans-serif;font-weight:600;font-size:14px;color:#163047">Your name (for your completion certificate)</label>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <input id="learner-name" type="text" autocomplete="name" placeholder="e.g. Ms. A. Ramnarine" value="{{ nameDraft }}" onChange="{{ onNameDraft }}" onKeyDown="{{ onNameKey }}" style="flex:1;min-width:200px;padding:10px 14px;border-radius:8px;border:1px solid rgba(22,48,71,.3);background:#fff;font-size:15px">
+          <button onClick="{{ begin }}" disabled="{{ beginDisabled }}" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:8px;border:1px solid #1F7E7C;background:#1F7E7C;color:#FFFDF9;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px" style-hover="background:#163047;border-color:#163047">Begin course</button>
+        </div>
+        <div style="font-size:13px;color:#5b5b5b">Your name, notes and answers are stored only in this browser — nothing is sent anywhere. On a shared staff device, clear them from this screen when you finish.</div>
+      </div>
+    </sc-if>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      <span style="font-size:12px;padding:4px 10px;border-radius:999px;background:rgba(31,126,124,.12);color:#155e5c;font-weight:600">5 modules</span>
+      <span style="font-size:12px;padding:4px 10px;border-radius:999px;background:rgba(31,126,124,.12);color:#155e5c;font-weight:600">13 lessons</span>
+      <span style="font-size:12px;padding:4px 10px;border-radius:999px;background:rgba(31,126,124,.12);color:#155e5c;font-weight:600">Fictional scenario practice</span>
+      <span style="font-size:12px;padding:4px 10px;border-radius:999px;background:rgba(31,126,124,.12);color:#155e5c;font-weight:600">Knowledge check</span>
+      <span style="font-size:12px;padding:4px 10px;border-radius:999px;background:rgba(31,126,124,.12);color:#155e5c;font-weight:600">Certificate</span>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="position:relative;width:100%;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#e8e2d4">
+      <img src="assets/hero-photo.webp" alt="Laptop and notebook on a desk with the Poui GPT badge — using AI in education" style="width:100%;height:100%;object-fit:cover;display:block">
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px">
+      <div style="border-radius:8px;padding:12px 8px;text-align:center;background:#163047;color:#FFFDF9"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">P</div><div style="font-size:11px;line-height:1.3">Protect privacy</div></div>
+      <div style="border-radius:8px;padding:12px 8px;text-align:center;background:#1F7E7C;color:#FFFDF9"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">A</div><div style="font-size:11px;line-height:1.3">Ask why</div></div>
+      <div style="border-radius:8px;padding:12px 8px;text-align:center;background:#CD9B34;color:#1b1b1b"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">U</div><div style="font-size:11px;line-height:1.3">Use judgement</div></div>
+      <div style="border-radius:8px;padding:12px 8px;text-align:center;background:#5A8F63;color:#FFFDF9"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">S</div><div style="font-size:11px;line-height:1.3">Safeguard</div></div>
+      <div style="border-radius:8px;padding:12px 8px;text-align:center;background:#B7832F;color:#FFFDF9"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">E</div><div style="font-size:11px;line-height:1.3">Ensure connection</div></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+      <a href="https://chatgpt.com/g/g-696d4b9b682c8191b00cce3da28a61bc-poui-gpt-1-3" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 20px;border-radius:8px;border:1px solid #1F7E7C;color:#1F7E7C;background:transparent;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;text-decoration:none" style-hover="background:rgba(31,126,124,.08)">Try POUI GPT<svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224 104a8 8 0 0 1-16 0V59.3l-66.3 66.4a8 8 0 0 1-11.4-11.4L196.7 48H152a8 8 0 0 1 0-16h64a8 8 0 0 1 8 8Zm-40 24a8 8 0 0 0-8 8v72H48V80h72a8 8 0 0 0 0-16H48a16 16 0 0 0-16 16v128a16 16 0 0 0 16 16h128a16 16 0 0 0 16-16v-72a8 8 0 0 0-8-8Z"/></svg></a>
+      <span style="font-size:13px;color:#5b5b5b;flex:1;min-width:160px">POUI is a pastoral AI GPT. Ensure your school's acceptable-use policy permits it. Opens in a new tab.</span>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- COURSE SHELL -->
+<sc-if value="{{ inCourse }}" hint-placeholder-val="{{ false }}">
+<a href="#main-content" data-noprint="1" style="position:absolute;left:-9999px;top:12px;z-index:20;padding:10px 16px;border-radius:8px;background:#163047;color:#FFFDF9;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px;text-decoration:none" style-focus="left:16px">Skip to lesson content</a>
+<header data-noprint="1" style="display:flex;align-items:center;gap:16px;padding:12px 20px;background:#FFFDF9;border-bottom:1px solid rgba(22,48,71,.12);position:sticky;top:0;z-index:5">
+  <sc-if value="{{ narrow }}"><button aria-label="Toggle lesson menu" onClick="{{ toggleMenu }}" style="width:40px;height:40px;border-radius:8px;border:1px solid rgba(22,48,71,.25);background:transparent;color:#163047;display:inline-flex;align-items:center;justify-content:center" style-hover="background:rgba(22,48,71,.06)"><svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></svg></button></sc-if>
+  <button onClick="{{ goLanding }}" style="border:0;background:transparent;padding:0;text-align:left;display:flex;flex-direction:column;gap:2px;color:#163047">
+    <span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#1F7E7C">Bloom Learning Lab 01</span>
+    <span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:15px">Exploring AI as a Pastoral Resource</span>
+  </button>
+  <div style="flex:1"></div>
+  <div style="display:flex;align-items:center;gap:10px;min-width:0">
+    <div style="width:120px;height:6px;border-radius:999px;background:rgba(22,48,71,.12);overflow:hidden" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ progressPct }}"><div style="{{ progressBarStyle }}"></div></div>
+    <span style="font-size:13px;color:#5b5b5b;white-space:nowrap">{{ progressPct }}%</span>
+  </div>
+</header>
+
+<div style="flex:1;display:flex;position:relative;max-width:1280px;width:100%;margin:0 auto">
+  <!-- SIDEBAR -->
+  <sc-if value="{{ showSidebar }}" hint-placeholder-val="{{ true }}">
+  <nav data-noprint="1" aria-label="Course lessons" style="{{ sidebarStyle }}">
+    <sc-for list="{{ modules }}" as="mod" hint-placeholder-count="5">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <div style="display:flex;align-items:baseline;gap:8px;padding:6px 10px 4px;font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#1F7E7C"><span style="white-space:nowrap">Module {{ mod.n }}</span><span style="color:#5b5b5b;letter-spacing:0;text-transform:none;font-family:'Open Sans',sans-serif;font-weight:400">{{ mod.title }} · {{ mod.mins }}</span></div>
+        <sc-for list="{{ mod.lessons }}" as="l" hint-placeholder-count="3">
+          <button onClick="{{ l.go }}" aria-current="{{ l.current }}" style="{{ l.style }}" style-hover="background:rgba(31,126,124,.08)">
+            <span style="{{ l.dotStyle }}"><sc-if value="{{ l.done }}"><svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg></sc-if></span>
+            <span style="flex:1">{{ l.title }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </sc-for>
+    <div style="height:1px;margin:8px 0;background:linear-gradient(to right,transparent,rgba(22,48,71,.18) 24px,rgba(22,48,71,.18) calc(100% - 24px),transparent)"></div>
+    <button onClick="{{ goResources }}" style="{{ resourcesStyle }}" style-hover="background:rgba(31,126,124,.08)"><svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm0,144H32V64H224V192ZM64,96h8a8,8,0,0,0,0-16H64a8,8,0,0,0,0,16Zm0,32H192a8,8,0,0,0,0-16H64a8,8,0,0,0,0,16Zm0,32H192a8,8,0,0,0,0-16H64a8,8,0,0,0,0,16Z"/></svg><span>PAUSE poster &amp; handout</span></button>
+  </nav>
+  </sc-if>
+  <sc-if value="{{ showScrim }}" hint-placeholder-val="{{ false }}"><div onClick="{{ toggleMenu }}" style="position:fixed;inset:0;background:rgba(22,48,71,.35);z-index:8"></div></sc-if>
+
+  <!-- MAIN -->
+  <main id="main-content" tabIndex="-1" style="outline:none;flex:1;min-width:0;padding:32px 24px 48px;display:flex;flex-direction:column;gap:28px">
+
+  <!-- Lesson header -->
+  <sc-if value="{{ isLesson }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:820px">
+      <div style="display:flex;align-items:center;gap:10px;font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#1F7E7C"><span>Module {{ curMod }} · {{ curModTitle }}</span><span style="color:#5b5b5b;letter-spacing:0;text-transform:none;font-family:'Open Sans',sans-serif;font-weight:400">Lesson {{ curIdx }} of {{ lessonCount }} · {{ curMins }} min</span></div>
+      <h1 style="font-size:clamp(26px,3.2vw,36px)">{{ curTitle }}</h1>
+      <p style="font-size:17px;color:#163047;text-wrap:pretty">{{ curIntro }}</p>
+      <div style="display:flex;flex-direction:column;gap:6px;padding:14px 18px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px;border-left:3px solid #1F7E7C">
+        <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#163047">In this lesson you will</div>
+        <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:2px;font-size:15px">
+          <sc-for list="{{ curOutcomes }}" as="o" hint-placeholder-count="2"><li>{{ o }}</li></sc-for>
+        </ul>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- 1.1 WELCOME -->
+  <sc-if value="{{ s_welcome }}">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;max-width:960px">
+      <div style="display:flex;flex-direction:column;gap:10px;padding:22px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px">
+        <h3 style="font-size:18px">AI may support</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span style="font-size:13px;padding:5px 12px;border-radius:999px;background:rgba(90,143,99,.15);color:#2f5a37;font-weight:600">Preparation</span><span style="font-size:13px;padding:5px 12px;border-radius:999px;background:rgba(90,143,99,.15);color:#2f5a37;font-weight:600">Reflection</span><span style="font-size:13px;padding:5px 12px;border-radius:999px;background:rgba(90,143,99,.15);color:#2f5a37;font-weight:600">Communication</span><span style="font-size:13px;padding:5px 12px;border-radius:999px;background:rgba(90,143,99,.15);color:#2f5a37;font-weight:600">Professional learning</span></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;padding:22px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px">
+        <h3 style="font-size:18px">With clear boundaries around</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:8px"><span style="font-size:13px;padding:5px 12px;border-radius:999px;background:rgba(22,48,71,.1);color:#163047;font-weight:600">Privacy</span><span style="font-size:13px;padding:5px 12px;border-radius:999px;background:rgba(22,48,71,.1);color:#163047;font-weight:600">Safeguarding</span><span style="font-size:13px;padding:5px 12px;border-radius:999px;background:rgba(22,48,71,.1);color:#163047;font-weight:600">Bias</span><span style="font-size:13px;padding:5px 12px;border-radius:999px;background:rgba(22,48,71,.1);color:#163047;font-weight:600">Accuracy</span><span style="font-size:13px;padding:5px 12px;border-radius:999px;background:rgba(22,48,71,.1);color:#163047;font-weight:600">Professional judgement</span><span style="font-size:13px;padding:5px 12px;border-radius:999px;background:rgba(22,48,71,.1);color:#163047;font-weight:600">Human relationships</span></div>
+      </div>
+    </div>
+    <div style="max-width:820px;padding:26px 28px;border-radius:8px;background:#163047;color:#FFFDF9;display:flex;flex-direction:column;gap:12px">
+      <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:28px;letter-spacing:.02em">AI supports. Humans lead.</div>
+      <p style="font-size:16px;opacity:.92">AI may help an educator think. It must not become the person who diagnoses a child, decides whether abuse has occurred, makes safeguarding decisions, determines a child's support plan — or replaces the trusted adult.</p>
+    </div>
+    <div style="max-width:820px;display:flex;flex-direction:column;gap:8px">
+      <h3 style="font-size:18px">Who this course is for</h3>
+      <p>Teachers, pastoral leads, heads of year/form, guidance officers, school leaders and any educator with pastoral responsibilities in Trinidad &amp; Tobago and the wider Caribbean.</p>
+    </div>
+  </sc-if>
+
+  <!-- 1.2 OPENING -->
+  <sc-if value="{{ s_opening }}">
+    <div style="max-width:820px;padding:24px 28px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(205,155,52,.5);display:flex;flex-direction:column;gap:10px">
+      <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#8a6417">Opening question</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:500;font-size:22px;color:#163047;text-wrap:pretty">Where could AI genuinely help pastoral staff — and where should it never take over?</div>
+      <p style="color:#5b5b5b">Think about one pastoral task that takes time, care or careful language. Would AI help you prepare — or would it risk replacing a human responsibility?</p>
+      <textarea rows="3" placeholder="Jot a first thought (optional, fictional tasks only)" value="{{ openingNote }}" onChange="{{ onOpeningNote }}" style="width:100%;padding:12px 14px;border-radius:8px;border:1px solid rgba(22,48,71,.25);background:#fff;font-size:15px;resize:vertical"></textarea>
+    </div>
+    <div style="max-width:820px;display:flex;flex-direction:column;gap:12px">
+      <h3 style="font-size:18px">Learning outcomes</h3>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:grid;grid-template-columns:56px 1fr;gap:12px;padding:12px 16px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px"><span style="font-family:'Poppins',sans-serif;font-weight:600;color:#1F7E7C">LO1</span><span>Identify at least three appropriate ways generative AI can support pastoral work.</span></div>
+        <div style="display:grid;grid-template-columns:56px 1fr;gap:12px;padding:12px 16px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px"><span style="font-family:'Poppins',sans-serif;font-weight:600;color:#1F7E7C">LO2</span><span>Recognise key risks: inaccurate output, bias, privacy, inappropriate disclosure and over-reliance on AI.</span></div>
+        <div style="display:grid;grid-template-columns:56px 1fr;gap:12px;padding:12px 16px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px"><span style="font-family:'Poppins',sans-serif;font-weight:600;color:#1F7E7C">LO3</span><span>Apply the PAUSE framework before using AI for a pastoral-related activity.</span></div>
+        <div style="display:grid;grid-template-columns:56px 1fr;gap:12px;padding:12px 16px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px"><span style="font-family:'Poppins',sans-serif;font-weight:600;color:#1F7E7C">LO4</span><span>Distinguish AI-assisted preparation from situations requiring human professional judgement, safeguarding or specialist support.</span></div>
+        <div style="display:grid;grid-template-columns:56px 1fr;gap:12px;padding:12px 16px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px"><span style="font-family:'Poppins',sans-serif;font-weight:600;color:#1F7E7C">LO5</span><span>Use POUI to work through a fictional pastoral scenario without entering identifiable or sensitive student information.</span></div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- 2.1 AI BASICS -->
+  <sc-if value="{{ s_aibasics }}">
+    <h2 style="font-size:22px;max-width:820px">What generative AI can do</h2>
+    <div style="max-width:820px"><p style="font-size:16px">Generative AI predicts and produces responses based on patterns in information. It is useful for words, ideas and practice — not for truth, diagnosis or safeguarding decisions.</p></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;max-width:960px">
+      <div style="padding:20px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px;display:flex;flex-direction:column;gap:6px;border-top:3px solid #1F7E7C"><h3 style="font-size:18px">Draft</h3><p style="font-size:14px;color:#5b5b5b">Questions, check-in scripts, letters</p></div>
+      <div style="padding:20px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px;display:flex;flex-direction:column;gap:6px;border-top:3px solid #1F7E7C"><h3 style="font-size:18px">Reframe</h3><p style="font-size:14px;color:#5b5b5b">Tone, clarity and language</p></div>
+      <div style="padding:20px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px;display:flex;flex-direction:column;gap:6px;border-top:3px solid #1F7E7C"><h3 style="font-size:18px">Generate</h3><p style="font-size:14px;color:#5b5b5b">Fictional scenarios and resources</p></div>
+      <div style="padding:20px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px;display:flex;flex-direction:column;gap:6px;border-top:3px solid #1F7E7C"><h3 style="font-size:18px">Reflect</h3><p style="font-size:14px;color:#5b5b5b">On assumptions and options</p></div>
+    </div>
+    <div style="max-width:820px;padding:18px 22px;border-radius:8px;background:rgba(31,126,124,.08);border:1px solid rgba(31,126,124,.3)"><strong style="color:#163047">AI is a drafting and reflection tool.</strong> It is not a professional judgement system.</div>
+    <div style="max-width:820px;height:1px;margin:8px 0;background:linear-gradient(to right,transparent,rgba(22,48,71,.18) 48px,rgba(22,48,71,.18) calc(100% - 48px),transparent)"></div>
+    <h2 style="font-size:22px;max-width:820px">What AI cannot know</h2>
+    <div style="max-width:820px;display:flex;flex-direction:column;gap:12px">
+      <p>Fluent language is not the same as truth, context or wisdom. However confident the output sounds, the AI does not:</p>
+      <ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px">
+        <li>know the child, the family, the school or the community;</li>
+        <li>know the current level of risk;</li>
+        <li>verify every fact it states;</li>
+        <li>possess professional safeguarding judgement.</li>
+      </ul>
+      <p>Its output may be <strong>wrong, biased, incomplete or overconfident</strong>. It does not replace Student Support Services, guidance/counselling, safeguarding leads or specialist support.</p>
+    </div>
+    <div style="max-width:820px;padding:26px 28px;border-radius:8px;background:#163047;color:#FFFDF9"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:24px;text-wrap:pretty">Confident-sounding is not the same as correct.</div></div>
+    <div style="max-width:820px;display:flex;flex-direction:column;gap:8px">
+      <h3 style="font-size:18px">Key risks to recognise</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:8px"><span style="font-size:14px;padding:6px 14px;border-radius:999px;border:1px solid rgba(22,48,71,.3);color:#163047">Inaccurate output</span><span style="font-size:14px;padding:6px 14px;border-radius:999px;border:1px solid rgba(22,48,71,.3);color:#163047">Bias</span><span style="font-size:14px;padding:6px 14px;border-radius:999px;border:1px solid rgba(22,48,71,.3);color:#163047">Privacy breach</span><span style="font-size:14px;padding:6px 14px;border-radius:999px;border:1px solid rgba(22,48,71,.3);color:#163047">Inappropriate disclosure</span><span style="font-size:14px;padding:6px 14px;border-radius:999px;border:1px solid rgba(22,48,71,.3);color:#163047">Over-reliance</span></div>
+    </div>
+  </sc-if>
+
+  <!-- 3.1 PAUSE -->
+  <sc-if value="{{ s_pause }}">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;max-width:960px">
+      <div style="border-radius:8px;padding:18px 16px;background:#163047;color:#FFFDF9;display:flex;flex-direction:column;gap:6px;min-height:150px"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:40px;line-height:1">P</div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:15px">Protect privacy</div><div style="font-size:13px;opacity:.9">Never enter identifiable or sensitive information — in a small community, removing a name is not enough.</div></div>
+      <div style="border-radius:8px;padding:18px 16px;background:#1F7E7C;color:#FFFDF9;display:flex;flex-direction:column;gap:6px;min-height:150px"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:40px;line-height:1">A</div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:15px">Ask why AI is needed</div><div style="font-size:13px;opacity:.9">What am I actually trying to achieve?</div></div>
+      <div style="border-radius:8px;padding:18px 16px;background:#CD9B34;color:#1b1b1b;display:flex;flex-direction:column;gap:6px;min-height:150px"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:40px;line-height:1">U</div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:15px">Use professional judgement</div><div style="font-size:13px;opacity:.9">Output is a suggestion, not a decision.</div></div>
+      <div style="border-radius:8px;padding:18px 16px;background:#5A8F63;color:#FFFDF9;display:flex;flex-direction:column;gap:6px;min-height:150px"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:40px;line-height:1">S</div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:15px">Safeguard through human systems</div><div style="font-size:13px;opacity:.9">Follow approved procedure — immediately.</div></div>
+      <div style="border-radius:8px;padding:18px 16px;background:#B7832F;color:#FFFDF9;display:flex;flex-direction:column;gap:6px;min-height:150px"><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:40px;line-height:1">E</div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:15px">Ensure human connection remains central</div><div style="font-size:13px;opacity:.9">AI works behind the scenes, never in the relationship.</div></div>
+    </div>
+    <div style="max-width:820px;padding:24px 28px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(205,155,52,.5);display:flex;flex-direction:column;gap:10px">
+      <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#8a6417">Reflect</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:500;font-size:20px;color:#163047;text-wrap:pretty">Which part of PAUSE do you think educators are most likely to forget when AI feels convenient?</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <sc-for list="{{ forgetOpts }}" as="f" hint-placeholder-count="5"><button onClick="{{ f.pick }}" aria-pressed="{{ f.on }}" style="{{ f.style }}" style-hover="background:rgba(31,126,124,.1)">{{ f.label }}</button></sc-for>
+      </div>
+      <sc-if value="{{ forgetPicked }}"><p style="font-size:14px;color:#5b5b5b">There's no single right answer — but convenience most often erodes <strong>P</strong> (pasting real details to save time) and <strong>U</strong> (accepting fluent output uncritically). Notice which one you chose.</p></sc-if>
+    </div>
+  </sc-if>
+
+  <!-- 3.2 PAUSE STEPS -->
+  <sc-if value="{{ s_pausesteps }}">
+    <h2 style="font-size:22px;max-width:820px">Before any prompt: P + A</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;max-width:960px">
+      <div style="padding:22px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px;border-top:4px solid #163047;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:40px;height:40px;border-radius:8px;background:#163047;color:#FFFDF9;display:inline-flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">P</span><h3 style="font-size:19px">Protect privacy</h3></div>
+        <p style="font-size:15px">Never enter into an AI system:</p>
+        <ul style="margin:0;padding-left:20px;font-size:15px;display:flex;flex-direction:column;gap:3px"><li>student names, or initials that could identify someone</li><li>student numbers, contact details or images</li><li>safeguarding records</li><li>medical or mental-health information</li><li>trauma histories</li><li>confidential family or case information</li></ul>
+        <div style="padding:12px 14px;border-radius:8px;background:rgba(22,48,71,.06);font-size:14px"><strong>Reminder:</strong> removing a name alone may not make a small-community case anonymous. For this course, use fictional or deliberately constructed scenarios only.</div>
+      </div>
+      <div style="padding:22px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px;border-top:4px solid #1F7E7C;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:40px;height:40px;border-radius:8px;background:#1F7E7C;color:#FFFDF9;display:inline-flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">A</span><h3 style="font-size:19px">Ask why AI is needed</h3></div>
+        <p style="font-size:15px">Before opening AI, ask: <strong>what am I trying to achieve?</strong> Good purposes include:</p>
+        <ul style="margin:0;padding-left:20px;font-size:15px;display:flex;flex-direction:column;gap:3px"><li>preparing questions</li><li>generating fictional training scenarios</li><li>improving the tone of a generic communication</li><li>reflecting on assumptions</li><li>practising professional judgement</li></ul>
+        <div style="padding:12px 14px;border-radius:8px;background:rgba(31,126,124,.08);font-size:14px">AI should not be used simply because it is available — and never for diagnosis, truth-finding or high-stakes decisions.</div>
+      </div>
+    </div>
+    <div style="max-width:820px;height:1px;margin:8px 0;background:linear-gradient(to right,transparent,rgba(22,48,71,.18) 48px,rgba(22,48,71,.18) calc(100% - 48px),transparent)"></div>
+    <h2 style="font-size:22px;max-width:820px">After the output: U + S + E</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;max-width:1040px">
+      <div style="padding:22px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px;border-top:4px solid #CD9B34;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:40px;height:40px;border-radius:8px;background:#CD9B34;color:#1b1b1b;display:inline-flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">U</span><h3 style="font-size:19px">Use professional judgement</h3></div>
+        <p style="font-size:15px">AI output may be wrong, incomplete, biased, overconfident or unsuitable for your context.</p>
+        <p style="font-size:15px">Treat it as <strong>a suggestion to evaluate</strong> — not a professional decision. Check important information against approved school, Board and Ministry guidance.</p>
+      </div>
+      <div style="padding:22px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px;border-top:4px solid #5A8F63;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:40px;height:40px;border-radius:8px;background:#5A8F63;color:#FFFDF9;display:inline-flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">S</span><h3 style="font-size:19px">Safeguard through human systems</h3></div>
+        <p style="font-size:15px">For any concern about harm, abuse, neglect, self-harm, serious mental-health risk or violence: follow the school's approved safeguarding and referral process.</p>
+        <p style="font-size:15px"><strong>Do not</strong> ask AI whether a disclosure is true. <strong>Do not</strong> delay a safeguarding response while consulting AI.</p>
+      </div>
+      <div style="padding:22px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px;border-top:4px solid #B7832F;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:12px"><span style="width:40px;height:40px;border-radius:8px;background:#B7832F;color:#FFFDF9;display:inline-flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">E</span><h3 style="font-size:19px">Ensure human connection remains central</h3></div>
+        <p style="font-size:15px">Pastoral care depends on trust, presence, listening, relationship, context and human responsibility.</p>
+        <p style="font-size:15px">AI may support the educator behind the scenes. It must not displace the trusted adult, pastoral lead, Student Support Services, counselling or specialist support.</p>
+      </div>
+    </div>
+    <div style="max-width:820px;padding:24px 26px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(205,155,52,.5);display:flex;flex-direction:column;gap:12px">
+      <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#8a6417">30-second check</div>
+      <div style="font-family:'Poppins',sans-serif;font-weight:500;font-size:20px;color:#163047;text-wrap:pretty">Tap the five steps in PAUSE order.</div>
+      <div role="group" aria-label="Your sequence" style="display:flex;gap:8px">
+        <sc-for list="{{ orderSlots }}" as="sl" hint-placeholder-count="5"><span style="{{ sl.style }}">{{ sl.letter }}</span></sc-for>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <sc-for list="{{ orderOpts }}" as="o" hint-placeholder-count="5"><button onClick="{{ o.pick }}" disabled="{{ o.used }}" style="{{ o.style }}" style-hover="background:rgba(31,126,124,.1)">{{ o.label }}</button></sc-for>
+      </div>
+      <sc-if value="{{ orderMiss }}"><p role="alert" style="font-size:14px;color:#8a2f22">Not quite — that step comes later. Sequence reset: start again from P.</p></sc-if>
+      <sc-if value="{{ orderDone }}"><p style="font-size:14px;color:#2f5a37;font-weight:600">All five in order. Privacy and purpose come before the prompt; judgement, safeguarding and connection come after the output.</p></sc-if>
+    </div>
+  </sc-if>
+
+  <!-- 4.1 FOUR USES -->
+  <sc-if value="{{ s_uses }}">
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:960px">
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:18px;padding:22px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px">
+        <div style="width:44px;height:44px;border-radius:8px;background:rgba(31,126,124,.12);color:#1F7E7C;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:600;font-size:20px">1</div>
+        <div style="display:flex;flex-direction:column;gap:8px;min-width:0"><h3 style="font-size:19px">Prepare — not diagnose</h3><p style="font-size:15px">AI can suggest non-judgemental questions for a pastoral check-in.</p>
+          <div style="padding:12px 16px;border-radius:8px;background:#F4F1EA;border-left:3px solid #1F7E7C;font-size:14px;font-style:italic">“Generate three gentle, non-judgemental opening questions an educator could use to check in with a student who has recently become disengaged. Do not assume a cause or diagnosis.”</div>
+          <p style="font-size:14px;color:#5b5b5b">Good output describes observations, invites conversation, avoids labels, preserves choice and keeps the adult responsible.</p></div>
+      </div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:18px;padding:22px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px">
+        <div style="width:44px;height:44px;border-radius:8px;background:rgba(31,126,124,.12);color:#1F7E7C;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:600;font-size:20px">2</div>
+        <div style="display:flex;flex-direction:column;gap:8px;min-width:0"><h3 style="font-size:19px">Reflect on assumptions</h3><p style="font-size:15px">AI can help surface what is known, assumed and missing — using fictional scenarios only.</p>
+          <div style="padding:12px 16px;border-radius:8px;background:#F4F1EA;border-left:3px solid #1F7E7C;font-size:14px;font-style:italic">“In this fictional scenario, what assumptions might the educator be making? What is actually known, and what should remain uncertain?”</div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px;font-weight:600;color:#163047"><span style="padding:4px 10px;border-radius:999px;border:1px solid rgba(22,48,71,.3)">Known facts</span><span aria-hidden="true">→</span><span style="padding:4px 10px;border-radius:999px;border:1px solid rgba(22,48,71,.3)">Possible explanations</span><span aria-hidden="true">→</span><span style="padding:4px 10px;border-radius:999px;border:1px solid rgba(22,48,71,.3)">Professional role</span><span aria-hidden="true">→</span><span style="padding:4px 10px;border-radius:999px;border:1px solid rgba(22,48,71,.3)">Next safe step</span></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:18px;padding:22px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px">
+        <div style="width:44px;height:44px;border-radius:8px;background:rgba(31,126,124,.12);color:#1F7E7C;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:600;font-size:20px">3</div>
+        <div style="display:flex;flex-direction:column;gap:8px;min-width:0"><h3 style="font-size:19px">Improve generic communication</h3><p style="font-size:15px">AI can help draft warmer, clearer, partnership-focused wording.</p>
+          <div style="padding:12px 16px;border-radius:8px;background:#F4F1EA;border-left:3px solid #1F7E7C;font-size:14px;font-style:italic">“Draft a warm, concise message inviting a parent or caregiver to discuss concerns about attendance and missed work. Keep it non-judgemental and focused on partnership.”</div>
+          <p style="font-size:14px;color:#5b5b5b">Before using it: remove identifying details · check accuracy · align with school policy · adapt to the family context. <strong>Never paste a real student's details into the prompt.</strong></p></div>
+      </div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:18px;padding:22px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px">
+        <div style="width:44px;height:44px;border-radius:8px;background:rgba(31,126,124,.12);color:#1F7E7C;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:600;font-size:20px">4</div>
+        <div style="display:flex;flex-direction:column;gap:8px;min-width:0"><h3 style="font-size:19px">Practise professional judgement</h3><p style="font-size:15px">AI can create fictional scenarios in which educators practise deciding whether to:</p>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px;letter-spacing:.06em"><span style="padding:8px 14px;border-radius:8px;background:rgba(90,143,99,.15);color:#2f5a37">RESPOND</span><span aria-hidden="true" style="color:#5b5b5b">→</span><span style="padding:8px 14px;border-radius:8px;background:rgba(205,155,52,.2);color:#6e4f12">CONSULT</span><span aria-hidden="true" style="color:#5b5b5b">→</span><span style="padding:8px 14px;border-radius:8px;background:rgba(31,126,124,.15);color:#155e5c">REFER</span><span aria-hidden="true" style="color:#5b5b5b">→</span><span style="padding:8px 14px;border-radius:8px;background:#163047;color:#FFFDF9">SAFEGUARD</span></div>
+          <p style="font-size:14px;color:#5b5b5b">The professional decides. AI helps them practise reasoning.</p></div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- 4.2 POUI PRACTICE -->
+  <sc-if value="{{ s_poui }}">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:1040px;align-items:start">
+      <div style="padding:24px 26px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#1F7E7C">Fictional scenario</div>
+        <p style="font-size:16px">A Form 3 student who has usually been engaged has recently:</p>
+        <ul style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:3px"><li>arrived late several times;</li><li>missed assignments;</li><li>participated less in lessons;</li><li>appeared quieter than usual.</li></ul>
+        <div style="padding:14px 16px;border-radius:8px;background:#F4F1EA;display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;color:#5b5b5b">A colleague comments:</span><span style="font-family:'Poppins',sans-serif;font-weight:500;font-size:17px;color:#163047">“Something serious must be happening at home.”</span></div>
+        <p style="font-size:14px;color:#5b5b5b">Your task: separate facts from assumptions before deciding what to do next. Work with the scenario — never with real student data.</p>
+        <p style="font-size:13px;color:#5b5b5b"><strong style="color:#163047">POUI</strong> is a pastoral AI GPT — the course's learning coach. These five guided prompts follow its method: separate what is known from what is assumed. Write first, take a hint if you need one, then compare with the model thinking.</p>
+      </div>
+      <div style="position:relative;width:100%;aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:#e8e2d4"><img src="assets/scenario-photo.webp" alt="An empty, sunlit school corridor with lockers and a notice board" style="width:100%;height:100%;object-fit:cover;display:block"></div>
+    </div>
+    <div style="max-width:820px;display:flex;flex-wrap:wrap;align-items:center;gap:10px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:13px;color:#163047">{{ pouiRevealedCount }} of 5 prompts revealed</span><div style="display:flex;gap:6px" aria-hidden="true"><sc-for list="{{ pouiDots }}" as="d" hint-placeholder-count="5"><span style="{{ d.style }}"></span></sc-for></div></div>
+    <div style="max-width:820px;display:flex;flex-direction:column;gap:16px">
+      <sc-for list="{{ pouiQs }}" as="q" hint-placeholder-count="5">
+        <div style="padding:22px 24px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:13px;color:#1F7E7C;white-space:nowrap">POUI asks · {{ q.n }}/5</span><span style="{{ q.statusStyle }}">{{ q.status }}</span></div>
+          <h3 style="font-size:18px;text-wrap:pretty">{{ q.q }}</h3>
+          <label style="font-size:13px;color:#5b5b5b" for="{{ q.id }}">Your response (fictional scenario only)</label>
+          <textarea id="{{ q.id }}" rows="3" value="{{ q.answer }}" onChange="{{ q.onAnswer }}" placeholder="Type your thinking here…" style="width:100%;padding:12px 14px;border-radius:8px;border:1px solid rgba(22,48,71,.25);background:#fff;font-size:15px;resize:vertical"></textarea>
+          <sc-if value="{{ q.warn }}"><div role="alert" style="padding:10px 14px;border-radius:8px;background:rgba(205,155,52,.18);border:1px solid rgba(205,155,52,.6);font-size:14px;color:#5a3f0b">That looks like it may contain identifying information (a name, number or contact). Please remove it and keep to the fictional scenario.</div></sc-if>
+          <div style="display:flex;flex-wrap:wrap;gap:10px">
+            <sc-if value="{{ q.showHintBtn }}"><button onClick="{{ q.onHint }}" style="padding:8px 16px;border-radius:8px;border:1px solid #1F7E7C;background:transparent;color:#1F7E7C;font-family:'Poppins',sans-serif;font-weight:600;font-size:13px" style-hover="background:rgba(31,126,124,.1)">Show hint</button></sc-if>
+            <sc-if value="{{ q.showRevealBtn }}"><button onClick="{{ q.onReveal }}" disabled="{{ q.revealDisabled }}" style="padding:8px 16px;border-radius:8px;border:1px solid #163047;background:#163047;color:#FFFDF9;font-family:'Poppins',sans-serif;font-weight:600;font-size:13px" style-hover="background:#1F7E7C;border-color:#1F7E7C">Reveal model thinking</button></sc-if>
+            <sc-if value="{{ q.needText }}"><span style="font-size:13px;color:#5b5b5b;align-self:center">Write a response first, then reveal.</span></sc-if>
+          </div>
+          <sc-if value="{{ q.hintShown }}"><div style="padding:12px 16px;border-radius:8px;background:rgba(31,126,124,.08);font-size:14px"><strong style="color:#155e5c">Hint:</strong> {{ q.hint }}</div></sc-if>
+          <sc-if value="{{ q.revealed }}"><div style="padding:14px 16px;border-radius:8px;background:#F4F1EA;border-left:3px solid #163047;display:flex;flex-direction:column;gap:6px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#163047">Model thinking</span><p style="font-size:15px;text-wrap:pretty">{{ q.model }}</p></div></sc-if>
+          <sc-if value="{{ q.showNext }}"><button onClick="{{ q.onNext }}" style="align-self:flex-start;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;border:1px solid rgba(22,48,71,.3);background:transparent;color:#163047;font-family:'Poppins',sans-serif;font-weight:600;font-size:12px" style-hover="background:rgba(22,48,71,.06)">Next prompt<svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M205.66,149.66l-72,72a8,8,0,0,1-11.32,0l-72-72a8,8,0,0,1,11.32-11.32L120,196.69V40a8,8,0,0,1,16,0V196.69l58.34-58.35a8,8,0,0,1,11.32,11.32Z"/></svg></button></sc-if>
+        </div>
+      </sc-for>
+    </div>
+    <div style="max-width:820px;padding:20px 24px;border-radius:8px;background:#163047;color:#FFFDF9;display:flex;flex-wrap:wrap;align-items:center;gap:16px">
+      <span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:14px;letter-spacing:.1em;text-transform:uppercase">Debrief · apply</span>
+      <span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:30px;letter-spacing:.35em">PAUSE</span>
+      <span style="font-size:14px;opacity:.9;flex:1;min-width:200px">Protect privacy · Ask why · Use judgement · Safeguard through human systems · Ensure connection.</span>
+    </div>
+    <div style="max-width:820px;display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+      <a href="https://chatgpt.com/g/g-696d4b9b682c8191b00cce3da28a61bc-poui-gpt-1-3" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 20px;border-radius:8px;border:1px solid #1F7E7C;color:#1F7E7C;background:transparent;font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;text-decoration:none" style-hover="background:rgba(31,126,124,.08)">Try POUI GPT<svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224 104a8 8 0 0 1-16 0V59.3l-66.3 66.4a8 8 0 0 1-11.4-11.4L196.7 48H152a8 8 0 0 1 0-16h64a8 8 0 0 1 8 8Zm-40 24a8 8 0 0 0-8 8v72H48V80h72a8 8 0 0 0 0-16H48a16 16 0 0 0-16 16v128a16 16 0 0 0 16 16h128a16 16 0 0 0 16-16v-72a8 8 0 0 0-8-8Z"/></svg></a>
+      <span style="font-size:13px;color:#5b5b5b;flex:1;min-width:200px">POUI is a pastoral AI GPT. Ensure your school's acceptable-use policy permits it. Opens in a new tab.</span>
+    </div>
+  </sc-if>
+
+  <!-- 4.3 HUMAN OR AI -->
+  <sc-if value="{{ s_humanai }}">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;max-width:960px">
+      <div style="padding:12px 14px;border-radius:8px;background:rgba(90,143,99,.12);border:1px solid rgba(90,143,99,.4);display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:13px;color:#2f5a37">AI may assist</span><span style="font-size:13px;color:#323232">Generic, fictional or non-identifiable material — no real child involved.</span></div>
+      <div style="padding:12px 14px;border-radius:8px;background:rgba(22,48,71,.06);border:1px solid rgba(22,48,71,.3);display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:13px;color:#163047">Human professional process</span><span style="font-size:13px;color:#323232">A decision about a real child that belongs to trained people following approved procedure.</span></div>
+      <div style="padding:12px 14px;border-radius:8px;background:rgba(205,155,52,.14);border:1px solid rgba(205,155,52,.5);display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:13px;color:#6e4f12">Not an appropriate AI task</span><span style="font-size:13px;color:#323232">AI must never do this, even as a suggestion — diagnosis, labelling, truth-finding.</span></div>
+    </div>
+    <div style="max-width:960px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:14px;color:#5b5b5b"><span>Tap the category for each activity:</span><span style="padding:4px 10px;border-radius:999px;background:rgba(90,143,99,.15);color:#2f5a37;font-weight:600;font-size:12px">AI may assist</span><span style="padding:4px 10px;border-radius:999px;background:rgba(22,48,71,.1);color:#163047;font-weight:600;font-size:12px">Human professional process</span><span style="padding:4px 10px;border-radius:999px;background:rgba(205,155,52,.2);color:#6e4f12;font-weight:600;font-size:12px">Not an appropriate AI task</span><span style="margin-left:auto;font-family:'Poppins',sans-serif;font-weight:600;color:#163047">{{ haiScore }}</span></div>
+    <div style="max-width:960px;display:flex;flex-direction:column;gap:10px">
+      <sc-for list="{{ haiItems }}" as="h" hint-placeholder-count="8">
+        <div style="{{ h.cardStyle }}">
+          <div style="font-size:16px;color:#163047;font-weight:600;flex:1;min-width:200px">{{ h.text }}</div>
+          <div role="group" aria-label="Classify" style="display:flex;flex-wrap:wrap;gap:6px">
+            <button onClick="{{ h.pickAi }}" aria-pressed="{{ h.isAi }}" style="{{ h.aiStyle }}">AI may assist</button>
+            <button onClick="{{ h.pickHuman }}" aria-pressed="{{ h.isHuman }}" style="{{ h.humanStyle }}">Human process</button>
+            <button onClick="{{ h.pickNo }}" aria-pressed="{{ h.isNo }}" style="{{ h.noStyle }}">Not appropriate</button>
+          </div>
+          <sc-if value="{{ h.picked }}"><div style="flex-basis:100%;font-size:14px;color:{{ h.fbColor }}">{{ h.feedback }}</div></sc-if>
+        </div>
+      </sc-for>
+    </div>
+    <div style="max-width:960px;padding:16px 20px;border-radius:8px;background:rgba(31,126,124,.08);border:1px solid rgba(31,126,124,.3);font-size:15px">When in doubt: do not use AI for the real case. Consult the right human system.</div>
+  </sc-if>
+
+  <!-- 4.4 BOUNDARY -->
+  <sc-if value="{{ s_boundary }}">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;max-width:960px">
+      <div style="padding:24px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(90,143,99,.5);border-top:4px solid #5A8F63;display:flex;flex-direction:column;gap:12px">
+        <h3 style="font-size:20px;color:#2f5a37">AI can help</h3>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:15px">
+          <li style="display:flex;gap:10px"><span aria-hidden="true" style="color:#5A8F63;font-weight:700">✓</span>prepare questions</li>
+          <li style="display:flex;gap:10px"><span aria-hidden="true" style="color:#5A8F63;font-weight:700">✓</span>generate fictional scenarios</li>
+          <li style="display:flex;gap:10px"><span aria-hidden="true" style="color:#5A8F63;font-weight:700">✓</span>improve generic communications</li>
+          <li style="display:flex;gap:10px"><span aria-hidden="true" style="color:#5A8F63;font-weight:700">✓</span>create check-in resources</li>
+          <li style="display:flex;gap:10px"><span aria-hidden="true" style="color:#5A8F63;font-weight:700">✓</span>encourage reflection and identify possible assumptions</li>
+          <li style="display:flex;gap:10px"><span aria-hidden="true" style="color:#5A8F63;font-weight:700">✓</span>practise decision-making</li>
+          <li style="display:flex;gap:10px"><span aria-hidden="true" style="color:#5A8F63;font-weight:700">✓</span>generate alternatives for discussion</li>
+        </ul>
+      </div>
+      <div style="padding:24px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(22,48,71,.3);border-top:4px solid #163047;display:flex;flex-direction:column;gap:12px">
+        <h3 style="font-size:20px">AI should not</h3>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:15px">
+          <li style="display:flex;gap:10px"><span aria-hidden="true" style="color:#163047;font-weight:700">✗</span>diagnose students</li>
+          <li style="display:flex;gap:10px"><span aria-hidden="true" style="color:#163047;font-weight:700">✗</span>determine whether abuse occurred or a disclosure is true</li>
+          <li style="display:flex;gap:10px"><span aria-hidden="true" style="color:#163047;font-weight:700">✗</span>replace the safeguarding lead or Student Support Services</li>
+          <li style="display:flex;gap:10px"><span aria-hidden="true" style="color:#163047;font-weight:700">✗</span>replace professional counselling or psychological services</li>
+          <li style="display:flex;gap:10px"><span aria-hidden="true" style="color:#163047;font-weight:700">✗</span>receive confidential student case records</li>
+          <li style="display:flex;gap:10px"><span aria-hidden="true" style="color:#163047;font-weight:700">✗</span>make high-stakes decisions about children</li>
+          <li style="display:flex;gap:10px"><span aria-hidden="true" style="color:#163047;font-weight:700">✗</span>replace a trusted human relationship</li>
+        </ul>
+      </div>
+    </div>
+    <div style="max-width:960px;padding:16px 20px;border-radius:8px;background:rgba(205,155,52,.14);border:1px solid rgba(205,155,52,.5);font-size:15px">This course does not invent policy. Where policy-specific guidance is not supplied here, consult the current school, Board or Ministry policy.</div>
+  </sc-if>
+
+  <!-- 5.1 QUIZ -->
+  <sc-if value="{{ s_quiz }}">
+    <div style="max-width:820px;display:flex;flex-direction:column;gap:16px">
+      <sc-for list="{{ quizItems }}" as="qz" hint-placeholder-count="5">
+        <div style="padding:22px 24px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:13px;color:#1F7E7C">Question {{ qz.n }}</span><sc-if value="{{ qz.crit }}"><span style="font-size:11px;padding:3px 9px;border-radius:999px;background:rgba(22,48,71,.1);color:#163047;font-weight:600;letter-spacing:.06em;text-transform:uppercase">Critical safeguarding/privacy item</span></sc-if></div>
+          <h3 style="font-size:18px;text-wrap:pretty">{{ qz.q }}</h3>
+          <div role="radiogroup" style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ qz.opts }}" as="o" hint-placeholder-count="4">
+              <button role="radio" aria-checked="{{ o.on }}" onClick="{{ o.pick }}" disabled="{{ qz.revealed }}" style="{{ o.style }}"><span style="font-family:'Poppins',sans-serif;font-weight:600;width:22px;flex-shrink:0">{{ o.letter }}</span><span>{{ o.text }}</span></button>
+            </sc-for>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+            <sc-if value="{{ qz.notRevealed }}"><button onClick="{{ qz.reveal }}" disabled="{{ qz.noPick }}" style="padding:8px 16px;border-radius:8px;border:1px solid #163047;background:#163047;color:#FFFDF9;font-family:'Poppins',sans-serif;font-weight:600;font-size:13px" style-hover="background:#1F7E7C;border-color:#1F7E7C">Reveal answer</button></sc-if>
+            <sc-if value="{{ qz.revealed }}"><div style="{{ qz.resultStyle }}"><strong>{{ qz.resultLabel }}</strong> {{ qz.why }}</div></sc-if>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <!-- 5.2 RESULTS -->
+  <sc-if value="{{ s_results }}">
+    <sc-if value="{{ quizIncomplete }}"><div style="max-width:820px;padding:20px 24px;border-radius:8px;background:rgba(205,155,52,.14);border:1px solid rgba(205,155,52,.5);display:flex;flex-wrap:wrap;gap:12px;align-items:center"><span style="flex:1;min-width:200px">You have revealed {{ quizRevealedCount }} of 5 answers. Finish the knowledge check to see your full result.</span><button onClick="{{ goQuiz }}" style="padding:8px 16px;border-radius:8px;border:1px solid #1F7E7C;background:transparent;color:#1F7E7C;font-family:'Poppins',sans-serif;font-weight:600;font-size:13px" style-hover="background:rgba(31,126,124,.1)">Back to knowledge check</button></div></sc-if>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:960px">
+      <div style="padding:24px;border-radius:8px;background:#163047;color:#FFFDF9;display:flex;flex-direction:column;gap:6px"><span style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-family:'Poppins',sans-serif;font-weight:600;opacity:.85">Score</span><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:44px;line-height:1">{{ quizScore }}/5</span><span style="font-size:14px;opacity:.9">{{ quizPct }}% · completion needs Q2 and Q4 correct; 80% is the recommended standard</span></div>
+      <div style="{{ critQ2Style }}"><span style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-family:'Poppins',sans-serif;font-weight:600">Q2 · Protect privacy</span><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">{{ critQ2Label }}</span><span style="font-size:14px">Critical privacy item</span></div>
+      <div style="{{ critQ4Style }}"><span style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;font-family:'Poppins',sans-serif;font-weight:600">Q4 · Safeguarding disclosure</span><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:22px">{{ critQ4Label }}</span><span style="font-size:14px">Critical safeguarding item</span></div>
+    </div>
+    <sc-if value="{{ needReteach }}">
+      <div style="max-width:960px;padding:22px 24px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(205,155,52,.6);display:flex;flex-direction:column;gap:10px">
+        <h3 style="font-size:18px">Re-teach: the two non-negotiables</h3>
+        <sc-if value="{{ q2Wrong }}"><p style="font-size:15px"><strong>P is Protect privacy.</strong> Never enter names, identifying initials, student numbers, contact details, safeguarding records, medical or mental-health information, trauma histories or confidential family information into an AI system. Use fictional scenarios only.</p></sc-if>
+        <sc-if value="{{ q4Wrong }}"><p style="font-size:15px"><strong>A disclosure goes to the school's approved safeguarding procedure — immediately.</strong> Never enter it into AI, never ask AI to assess its seriousness, and never wait for more information before acting.</p></sc-if>
+        <button onClick="{{ retakeCritical }}" style="align-self:flex-start;padding:8px 16px;border-radius:8px;border:1px solid #163047;background:#163047;color:#FFFDF9;font-family:'Poppins',sans-serif;font-weight:600;font-size:13px" style-hover="background:#1F7E7C;border-color:#1F7E7C">Re-check the critical questions</button>
+      </div>
+    </sc-if>
+    <div style="max-width:960px;display:flex;flex-direction:column;gap:8px">
+      <h3 style="font-size:18px">Question by question</h3>
+      <p style="font-size:13px;color:#5b5b5b">One attempt per question — the point is to learn from the answer. Only the two critical items can be re-checked.</p>
+      <sc-for list="{{ quizSummary }}" as="r" hint-placeholder-count="5"><div style="display:flex;gap:12px;align-items:baseline;padding:10px 14px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);border-radius:8px;font-size:14px"><span style="{{ r.markStyle }}">{{ r.mark }}</span><span style="flex:1">{{ r.q }}</span><span style="color:#5b5b5b;white-space:nowrap">Correct: {{ r.ans }}</span></div></sc-for>
+    </div>
+    <p style="max-width:960px;font-size:13px;color:#5b5b5b">Final completion rules and recognised CPD time are set by the selected CPD provider/accreditor.</p>
+  </sc-if>
+
+  <!-- 5.3 COMMITMENT -->
+  <sc-if value="{{ s_commit }}">
+    <div style="max-width:820px;display:flex;flex-direction:column;gap:20px">
+      <div style="padding:24px 26px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(205,155,52,.5);display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:'Poppins',sans-serif;font-weight:500;font-size:20px;color:#163047;text-wrap:pretty">What is one appropriate way you could use AI to support your professional pastoral work this month?</div>
+        <sc-if value="{{ hasOpeningNote }}" hint-placeholder-val="{{ false }}"><div style="padding:12px 14px;border-radius:8px;background:#F4F1EA;font-size:14px;color:#163047"><span style="color:#5b5b5b">At the start you wrote:</span> “{{ openingNote }}” <span style="color:#5b5b5b">— does your commitment answer it?</span></div></sc-if>
+        <div style="font-size:13px;color:#5b5b5b">Choose a starting point or write your own.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{ commitOpts }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.pick }}" aria-pressed="{{ c.on }}" style="{{ c.style }}" style-hover="background:rgba(31,126,124,.1)">{{ c.label }}</button></sc-for>
+        </div>
+        <label for="commit-text" style="font-family:'Poppins',sans-serif;font-weight:600;font-size:14px;color:#163047">My safe-use commitment</label>
+        <textarea id="commit-text" rows="3" value="{{ commit }}" onChange="{{ onCommit }}" placeholder="This month I will…" style="width:100%;padding:12px 14px;border-radius:8px;border:1px solid rgba(22,48,71,.25);background:#fff;font-size:15px;resize:vertical"></textarea>
+      </div>
+      <div style="padding:24px 26px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);display:flex;flex-direction:column;gap:12px">
+        <div style="font-family:'Poppins',sans-serif;font-weight:500;font-size:20px;color:#163047">Which part of PAUSE will you need to remember most?</div>
+        <div role="radiogroup" style="display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{ stepOpts }}" as="st" hint-placeholder-count="5"><button role="radio" aria-checked="{{ st.on }}" onClick="{{ st.pick }}" style="{{ st.style }}"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:18px">{{ st.letter }}</span><span style="font-size:13px">{{ st.label }}</span></button></sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- 5.4 CERTIFICATE -->
+  <sc-if value="{{ s_cert }}">
+    <sc-if value="{{ certLocked }}">
+      <div style="max-width:820px;padding:22px 24px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);display:flex;flex-direction:column;gap:12px">
+        <h3 style="font-size:18px">To complete this micro-course</h3>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-size:15px">
+          <li style="display:flex;gap:10px;align-items:center"><span style="{{ req1Style }}">1</span>Work through all {{ lessonCount }} lessons <span style="color:#5b5b5b">({{ completedCount }}/{{ lessonCount }})</span></li>
+          <li style="display:flex;gap:10px;align-items:center"><span style="{{ req2Style }}">2</span>Complete the POUI fictional scenario <span style="color:#5b5b5b">({{ pouiRevealedCount }}/5 revealed — tap “Reveal model response” on each prompt)</span> <button onClick="{{ goPoui }}" style="padding:4px 12px;border-radius:999px;border:1px solid #1F7E7C;background:transparent;color:#1F7E7C;font-family:'Poppins',sans-serif;font-weight:600;font-size:12px" style-hover="background:rgba(31,126,124,.08)">Go to scenario</button></li>
+          <li style="display:flex;gap:10px;align-items:center"><span style="{{ req3Style }}">3</span>Finish the five-question knowledge check <span style="color:#5b5b5b">({{ quizRevealedCount }}/5 · Q2 and Q4 must be correct)</span> <button onClick="{{ goQuiz }}" style="padding:4px 12px;border-radius:999px;border:1px solid #1F7E7C;background:transparent;color:#1F7E7C;font-family:'Poppins',sans-serif;font-weight:600;font-size:12px" style-hover="background:rgba(31,126,124,.08)">Go to knowledge check</button></li>
+          <li style="display:flex;gap:10px;align-items:center"><span style="{{ req4Style }}">4</span>Submit one safe-use commitment</li>
+        </ul>
+        <p style="font-size:14px;color:#5b5b5b">Your certificate appears here once every step is done.</p>
+      </div>
+    </sc-if>
+    <sc-if value="{{ certReady }}">
+      <p data-noprint="1" style="max-width:1123px;font-size:14px;color:#5b5b5b">Congratulations, {{ name }}. Download your certificate as an A4 PDF, save your digital badge, or copy a link to share. Finished on a shared device? Clear your notes from the start screen afterwards.</p>
+      <div data-printroot="1" style="max-width:1123px"><dc-import name="Certificate" recipient-name="{{ name }}" credential-id="{{ credId }}" issue-date="{{ today }}" commitment="{{ commit }}" hint-size="100%,560px"></dc-import></div>
+    </sc-if>
+  </sc-if>
+
+  <!-- RESOURCES: POSTER + HANDOUT -->
+  <sc-if value="{{ s_resources }}">
+    <div data-noprint="1" style="display:flex;flex-direction:column;gap:10px;max-width:820px">
+      <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#1F7E7C">Resources</div>
+      <h1 style="font-size:clamp(26px,3.2vw,36px)">PAUSE poster &amp; participant handout</h1>
+      <p style="font-size:16px;color:#163047">Choose a view, then print or save as PDF (A4).</p>
+      <div role="tablist" style="display:inline-flex;border:1px solid rgba(22,48,71,.3);border-radius:8px;overflow:hidden;align-self:flex-start">
+        <button role="tab" aria-selected="{{ isPoster }}" onClick="{{ showPoster }}" style="{{ posterTabStyle }}">PAUSE poster</button>
+        <button role="tab" aria-selected="{{ isHandout }}" onClick="{{ showHandout }}" style="{{ handoutTabStyle }}">A4 handout</button>
+      </div>
+      <button onClick="{{ printPage }}" style="align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:8px;border:1px solid #1F7E7C;background:transparent;color:#1F7E7C;font-family:'Poppins',sans-serif;font-weight:600;font-size:13px" style-hover="background:rgba(31,126,124,.1)">Print / save as PDF</button>
+    </div>
+    <sc-if value="{{ isPoster }}">
+      <div data-printroot="1" style="width:100%;max-width:794px;aspect-ratio:210/297;background:#FFFDF9;border:1px solid rgba(22,48,71,.2);border-top:12px solid #1F7E7C;padding:6% 7%;display:flex;flex-direction:column;gap:3%">
+        <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(9px,1.3vw,12px);letter-spacing:.14em;text-transform:uppercase;color:#1F7E7C">Bloom Learning Lab 01</div>
+        <h2 style="font-size:clamp(24px,5vw,44px);letter-spacing:.3em">PAUSE</h2>
+        <p style="font-size:clamp(12px,1.8vw,17px);color:#163047">before using AI for pastoral work</p>
+        <div style="flex:1;display:flex;flex-direction:column;gap:2.5%">
+          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#163047;color:#FFFDF9"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5vw,48px)">P</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2vw,19px)">Protect privacy</div><div style="font-size:clamp(9px,1.4vw,13px);opacity:.9">Never enter identifiable or sensitive student information.</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#1F7E7C;color:#FFFDF9"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5vw,48px)">A</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2vw,19px)">Ask why AI is needed</div><div style="font-size:clamp(9px,1.4vw,13px);opacity:.9">Preparation, reflection, generic resources, practice — not diagnosis or decisions.</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#CD9B34;color:#1b1b1b"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5vw,48px)">U</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2vw,19px)">Use professional judgement</div><div style="font-size:clamp(9px,1.4vw,13px);opacity:.9">Output is a suggestion to evaluate — check against approved guidance.</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#5A8F63;color:#FFFDF9"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5vw,48px)">S</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2vw,19px)">Safeguard through human systems</div><div style="font-size:clamp(9px,1.4vw,13px);opacity:.9">Any concern about harm: follow approved procedure immediately.</div></div></div>
+          <div style="flex:1;display:grid;grid-template-columns:auto 1fr;gap:4%;align-items:center;padding:0 4%;border-radius:8px;background:#B7832F;color:#FFFDF9"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(28px,5.5vw,48px)">E</span><div><div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:clamp(12px,2vw,19px)">Ensure human connection remains central</div><div style="font-size:clamp(9px,1.4vw,13px);opacity:.9">AI supports behind the scenes. The trusted adult leads.</div></div></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;gap:10px;font-size:clamp(8px,1.2vw,11px);color:#5b5b5b"><span style="font-family:'Poppins',sans-serif;font-weight:600;color:#163047">AI supports. Humans lead.</span><span>BRFS-AI-PAST-01 v1.0</span></div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isHandout }}">
+      <div data-printroot="1" style="width:100%;max-width:794px;background:#FFFDF9;border:1px solid rgba(22,48,71,.2);border-top:12px solid #1F7E7C;padding:40px 44px;display:flex;flex-direction:column;gap:18px;font-size:12.5px;line-height:1.5">
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><span style="font-family:'Poppins',sans-serif;font-weight:600;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#1F7E7C">Bloom Learning Lab 01 · Participant handout</span><span style="font-size:11px;color:#5b5b5b">BRFS-AI-PAST-01 v1.0</span></div>
+        <h2 style="font-size:24px">Exploring AI as a Pastoral Resource</h2>
+        <p style="color:#163047;font-size:13px">Use AI to strengthen the educator's thinking — never to replace the educator's responsibility. <strong>AI supports. Humans lead.</strong></p>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <h3 style="font-size:14px">The PAUSE check</h3>
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:start">
+            <span style="width:26px;height:26px;border-radius:6px;background:#163047;color:#FFFDF9;display:inline-flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:600">P</span><span><strong>Protect privacy.</strong> Never enter names, identifying initials, student numbers, contact details, images, safeguarding records, medical/mental-health information, trauma histories or confidential family information. Fictional scenarios only.</span>
+            <span style="width:26px;height:26px;border-radius:6px;background:#1F7E7C;color:#FFFDF9;display:inline-flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:600">A</span><span><strong>Ask why AI is needed.</strong> Preparation, reflection, generic communication, resources or practice — not diagnosis, truth-finding or high-stakes decisions.</span>
+            <span style="width:26px;height:26px;border-radius:6px;background:#CD9B34;color:#1b1b1b;display:inline-flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:600">U</span><span><strong>Use professional judgement.</strong> Output may be wrong, incomplete, biased or overconfident. Treat it as a suggestion; check against school, Board and Ministry guidance.</span>
+            <span style="width:26px;height:26px;border-radius:6px;background:#5A8F63;color:#FFFDF9;display:inline-flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:600">S</span><span><strong>Safeguard through human systems.</strong> For harm, abuse, neglect, self-harm, serious mental-health risk or violence, follow approved procedure immediately. Never consult AI on truth, threshold or response.</span>
+            <span style="width:26px;height:26px;border-radius:6px;background:#B7832F;color:#FFFDF9;display:inline-flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:600">E</span><span><strong>Ensure human connection remains central.</strong> AI assists behind the scenes; it must not displace the trusted adult, pastoral lead, Student Support Services, counselling or specialist support.</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div style="display:flex;flex-direction:column;gap:4px"><h3 style="font-size:14px;color:#2f5a37">AI can help</h3><ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:2px"><li>prepare check-in questions</li><li>generate fictional scenarios</li><li>improve generic communications</li><li>create check-in resources</li><li>surface assumptions for reflection</li><li>practise respond → consult → refer → safeguard</li></ul></div>
+          <div style="display:flex;flex-direction:column;gap:4px"><h3 style="font-size:14px">AI should not</h3><ul style="margin:0;padding-left:16px;display:flex;flex-direction:column;gap:2px"><li>diagnose or profile students</li><li>decide whether abuse occurred or a disclosure is true</li><li>summarise confidential case notes</li><li>receive identifiable student records</li><li>replace safeguarding leads, SSS or counselling</li><li>make high-stakes decisions about a child</li></ul></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px"><h3 style="font-size:14px">Questions POUI will ask you</h3><p>What do you actually know? · What are you assuming? · What is within your professional role? · Where is the safeguarding or referral boundary? · How could you preserve human connection here?</p></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><h3 style="font-size:14px">My safe-use commitment</h3><div style="height:1px;background:rgba(22,48,71,.3);margin-top:18px"></div><div style="height:1px;background:rgba(22,48,71,.3);margin-top:22px"></div></div>
+        <div style="height:1px;background:linear-gradient(to right,transparent,rgba(22,48,71,.25) 48px,rgba(22,48,71,.25) calc(100% - 48px),transparent)"></div>
+        <p style="font-size:11px;color:#5b5b5b">AI supports; humans lead. Never enter identifiable or sensitive student information. This course does not invent policy — consult current school, Board or Ministry policy.</p>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <!-- Key takeaway + lesson nav -->
+  <sc-if value="{{ isLesson }}" hint-placeholder-val="{{ true }}">
+    <div style="max-width:820px;display:flex;flex-direction:column;gap:6px;padding:16px 20px;border-radius:8px;background:rgba(183,131,47,.12);border:1px solid rgba(183,131,47,.4)">
+      <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#7a5417">Key takeaway</div>
+      <p style="font-size:16px;color:#163047;text-wrap:pretty">{{ curTakeaway }}</p>
+    </div>
+    <div data-noprint="1" style="max-width:820px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding-top:8px">
+      <sc-if value="{{ hasPrev }}"><button onClick="{{ prev }}" style="display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;border:1px solid rgba(22,48,71,.3);background:transparent;color:#163047;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px" style-hover="background:rgba(22,48,71,.06)"><svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg>Back</button></sc-if>
+      <div style="flex:1"></div>
+      <sc-if value="{{ curDone }}"><span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#2f5a37;font-weight:600"><svg width="14" height="14" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"/></svg>Completed</span></sc-if>
+      <button onClick="{{ next }}" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;white-space:nowrap;border-radius:8px;border:1px solid #1F7E7C;background:#1F7E7C;color:#FFFDF9;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px" style-hover="background:#163047;border-color:#163047">{{ nextLabel }}<svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg></button>
+    </div>
+  </sc-if>
+
+  <!-- Permanent footer -->
+  <div style="max-width:960px;margin-top:auto;padding-top:20px;display:flex;flex-direction:column;gap:10px">
+    <div style="height:1px;background:linear-gradient(to right,transparent,rgba(22,48,71,.18) 48px,rgba(22,48,71,.18) calc(100% - 48px),transparent)"></div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;font-size:13px;color:#4a4a4a"><span><strong style="color:#163047">AI supports; humans lead.</strong> Never enter identifiable or sensitive student information.</span><span style="white-space:nowrap">BRFS-AI-PAST-01 v1.0</span></div>
+  </div>
+  </main>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;revealMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;hint-then-reveal&quot;,&quot;options&quot;:[&quot;hint-then-reveal&quot;,&quot;reveal-anytime&quot;],&quot;tsType&quot;:&quot;'hint-then-reveal' | 'reveal-anytime'&quot;,&quot;section&quot;:&quot;POUI practice&quot;}}">
+const KEY = 'poui-lab-01-v1';
+const MODS = [
+  { title: 'Welcome', mins: '3 min' }, { title: 'AI basics', mins: '3 min' }, { title: 'PAUSE', mins: '4 min' }, { title: 'Practice', mins: '13 min' }, { title: 'Assessment', mins: '7 min' }
+];
+const LESSONS = [
+  { id: 'welcome', mod: 1, mins: 1, title: 'Welcome & course promise', intro: 'A 30-minute introduction to using generative AI responsibly in pastoral work — with the human relationship kept firmly at the centre.', outcomes: ['Understand what the course covers and who it is for', 'Meet the core principle: AI supports, humans lead'], takeaway: 'AI may help an educator think. It must never become the person who decides about a child.' },
+  { id: 'opening', mod: 1, mins: 2, title: 'Opening question & learning outcomes', intro: 'Start by locating AI in your own pastoral practice, then review the five outcomes this course works towards.', outcomes: ['Reflect on where AI could help — and where it must not', 'Review the five learning outcomes'], takeaway: 'Would AI help me prepare — or would it risk replacing a human responsibility? Hold that question throughout.' },
+  { id: 'aibasics', mod: 2, mins: 3, title: 'What AI can do — and cannot know', intro: 'Generative AI is a drafting and reflection tool. Knowing what it is good at — and what it can never know — keeps its role proportionate.', outcomes: ['Name the four things AI does well for educators', 'Recognise the key risks: inaccuracy, bias, privacy, disclosure, over-reliance', 'Explain why confident-sounding is not the same as correct'], takeaway: 'AI is useful for words, ideas and practice — not for truth, diagnosis or safeguarding decisions. It does not know the child, the family, the school or the current risk.' },
+  { id: 'pause', mod: 3, mins: 1.5, title: 'PAUSE: the five-step check', intro: 'PAUSE is a professional check to run before AI enters any pastoral process. Five letters, five questions.', outcomes: ['Recall the five PAUSE steps', 'Identify which step is most easily forgotten when AI feels convenient'], takeaway: 'PAUSE keeps AI in its proper role: a support for educator thinking, not a substitute for pastoral judgement.' },
+  { id: 'pausesteps', mod: 3, mins: 2.5, title: 'PAUSE step by step', intro: 'Two checks before you type a word — privacy and purpose — and three after the output: evaluate it, route concerns through human systems, keep the relationship human.', outcomes: ['List the categories of information that must never be entered', 'Test whether a purpose justifies using AI at all', 'Treat AI output as a suggestion to evaluate, and know when to stop and follow safeguarding procedure'], takeaway: 'Protect privacy and ask why before the prompt. Judgement, safeguarding and connection stay with people after the output.' },
+  { id: 'uses', mod: 4, mins: 3, title: 'Four appropriate uses', intro: 'Prepare, reflect, communicate, practise — four ways AI can support you behind the scenes, each with an example prompt and a boundary.', outcomes: ['Identify at least three appropriate uses of AI in pastoral work', 'Recognise the boundary attached to each use'], takeaway: 'AI should help the adult think more clearly — not decide for the adult.' },
+  { id: 'poui', mod: 4, mins: 6, title: 'POUI practice: a fictional Form 3 scenario', intro: 'Work through a constructed scenario with POUI, the course learning coach. Write your own thinking first; use a hint if you need one; then compare with the model thinking.', outcomes: ['Separate observed facts from assumptions', 'Draft a non-judgemental first response', 'Name the data boundary and the referral boundary'], takeaway: 'Observe before interpreting. Know what you know, name what you are assuming, and route real concerns through human systems.' },
+  { id: 'humanai', mod: 4, mins: 3, title: 'Human or AI? Decision challenge', intro: 'Classify eight pastoral activities. Some are fine for AI to assist with; some belong only to human professional process; one is never an appropriate AI task.', outcomes: ['Distinguish AI-assisted preparation from human professional decisions', 'Spot tasks that are never appropriate for AI'], takeaway: 'AI can assist with language and practice — never with confidential casework or high-stakes decisions about a child.' },
+  { id: 'boundary', mod: 4, mins: 1, title: 'The boundary', intro: 'The central pastoral boundary on one screen: what AI can help with, and what it should never do.', outcomes: ['State the boundary clearly to a colleague', 'Know where to look when policy is unclear'], takeaway: 'When in doubt, do not use AI for the real case. Consult the right human system and current policy.' },
+  { id: 'quiz', mod: 5, mins: 3, title: 'Knowledge check', intro: 'Five questions, one attempt each. Choose the safest and most appropriate answer, then reveal. Questions 2 and 4 are critical privacy and safeguarding items and must be correct to complete.', outcomes: ['Apply the PAUSE framework to short cases', 'Demonstrate the two non-negotiables: protect privacy, follow safeguarding procedure'], takeaway: 'Completion requires both critical items correct, with re-teaching where necessary. 80% overall is the recommended standard.' },
+  { id: 'results', mod: 5, mins: 1, title: 'Your results', intro: 'Your score against the recommended standard, with the two critical items flagged.', outcomes: ['Review your result and any re-teaching needed'], takeaway: 'Completion means understanding — not just a score. Re-check any critical item you missed.' },
+  { id: 'commit', mod: 5, mins: 2, title: 'One safe practice', intro: 'Turn the course into one concrete, appropriate action for this month — and name the PAUSE step you most need to remember.', outcomes: ['Commit to one appropriate AI-supported pastoral practice', 'Choose your PAUSE anchor'], takeaway: 'Use AI to strengthen your thinking — never to replace your responsibility.' },
+  { id: 'cert', mod: 5, mins: 1, title: 'Completion certificate', intro: 'Your record of completing the micro-course. It records completion only — not a clinical, counselling or safeguarding-specialist competence.', outcomes: ['Confirm every completion step', 'Print or save your certificate'], takeaway: 'AI supports. Humans lead. Protect privacy · Use professional judgement · Safeguard through human systems · Keep relationships at the centre.' }
+];
+const POUI = [
+  { q: 'What do you actually know from the information provided?', hint: 'List only what has been directly observed. Leave out anything that explains why.', model: 'We know only the observable changes: lateness on several occasions, missed assignments, reduced participation and a quieter manner. We do not know the cause. Nothing here tells us about home, health or risk.' },
+  { q: 'What assumptions could the colleague be making?', hint: 'Compare the colleague\'s sentence with your list from Question 1. What has been added?', model: 'The colleague is moving from observable behaviour to an unsupported explanation ("something serious at home"). That leaps over many other possibilities — sleep, friendships, workload, transport, health, a change in routine — and risks shaping how the student is approached.' },
+  { q: 'What could be an appropriate first pastoral response?', hint: 'Describe what you have noticed, keep it private and non-judgemental, and leave the student in control of what they share.', model: 'A calm, private, non-judgemental check-in that describes what has been noticed and invites the student to talk if they wish. For example: "I\'ve noticed you\'ve seemed a little quieter recently and that you\'ve missed some work. I wanted to check how things are going and whether there is anything we can help with." It names observations, preserves dignity, avoids diagnosis and opens a human conversation.' },
+  { q: 'What information should not be entered into an AI system?', hint: 'Think in categories rather than single items: identity, records, history.', model: 'Names and identifying details (including initials, student numbers, images and contact details); actual safeguarding information; medical or mental-health records; trauma histories; confidential family information — and anything that could identify a child in a small community, even with the name removed.' },
+  { q: 'What would indicate that this situation should move beyond an ordinary pastoral check-in?', hint: 'When would a check-in stop being enough — and who would need to be involved?', model: 'A safeguarding disclosure; any indication of immediate risk; a self-harm or serious mental-health concern; persistent, significant disengagement; or circumstances requiring Student Support Services or another approved referral route. At that point follow the school\'s approved procedure — do not ask AI whether the concern is serious enough.' }
+];
+const HAI = [
+  { t: 'Draft a generic check-in question', c: 'ai' },
+  { t: 'Decide whether a child has experienced abuse', c: 'human', alt: 'no' },
+  { t: 'Generate a fictional restorative scenario for staff training', c: 'ai' },
+  { t: 'Decide whether a real safeguarding disclosure meets the threshold for action', c: 'human' },
+  { t: 'Improve the tone of a generic parent communication', c: 'ai' },
+  { t: 'Decide whether a student has depression, trauma or ADHD', c: 'no' },
+  { t: 'Generate reflective questions for a pastoral-team meeting', c: 'ai' },
+  { t: 'Decide the final support plan for a vulnerable child', c: 'human' }
+];
+const HAI_LABEL = { ai: 'AI may assist', human: 'a human professional process', no: 'not an appropriate AI task' };
+const HAI_WHY = [
+  'Generic wording, no real student involved.', 'Only trained professionals following approved procedure can make this judgement.', 'Fictional material for practice is exactly what AI is good at.', 'AI may explain approved guidance for learning, but never make the safeguarding decision.', 'Fine — as long as no identifying details are pasted in.', 'Diagnosis is a clinical matter. AI must never label a child.', 'Prompts for professional discussion are a safe use.', 'High-stakes decisions about a child belong to the people responsible for that child.'
+];
+const QUIZ = [
+  { q: 'Which is an appropriate pastoral use of AI?', opts: ['Uploading a student\'s safeguarding record for recommendations', 'Asking AI to generate a fictional restorative-conversation scenario', 'Asking AI whether a student has depression', 'Asking AI whether a disclosure is true'], ans: 1, crit: false, why: 'Fictional scenarios for practice are appropriate. The other three involve real records, diagnosis or truth-finding.' },
+  { q: 'What does P in PAUSE mean?', opts: ['Predict what the student needs', 'Protect privacy', 'Profile the student', 'Provide AI with enough student information'], ans: 1, crit: true, why: 'Protect privacy: never enter identifiable or sensitive student information.' },
+  { q: 'A previously engaged student becomes withdrawn. What is the safest first principle?', opts: ['Assume something traumatic has happened', 'Ask AI what diagnosis is most likely', 'Distinguish what has been observed from what is being assumed', 'Immediately contact the family with your theory'], ans: 2, crit: false, why: 'Observe before interpreting. Facts first, assumptions named, no diagnosis.' },
+  { q: 'A student begins making a safeguarding disclosure. What should happen?', opts: ['Enter the disclosure into POUI for advice', 'Ask AI to assess its seriousness', 'Follow the school\'s approved safeguarding procedure', 'Wait until more information is available'], ans: 2, crit: true, why: 'Follow approved procedure immediately. Never route a disclosure through AI or delay the response.' },
+  { q: 'What best describes AI\'s role in pastoral work?', opts: ['AI provides pastoral judgement', 'AI replaces routine pastoral conversations', 'AI may support educator preparation and reflection while humans retain responsibility', 'AI should make decisions because it is less emotional'], ans: 2, crit: false, why: 'AI supports. Humans lead.' }
+];
+const COMMITS = ['Prepare a generic check-in structure', 'Practise a fictional scenario', 'Reflect on assumptions in a fictional case', 'Develop a generic restorative prompt', 'Improve the tone of a non-identifiable family message'];
+const STEPS = [['P', 'Protect privacy'], ['A', 'Ask why AI is needed'], ['U', 'Use professional judgement'], ['S', 'Safeguard through human systems'], ['E', 'Ensure human connection remains central']];
+const FONT_H = "'Poppins',sans-serif";
+
+class Component extends DCLogic {
+  state = { screen: 'landing', name: '', nameDraft: '', openingNote: '', forget: '', completed: {}, poui: {}, hai: {}, quiz: {}, commit: '', commitStep: '', credId: '', order: [], orderMiss: false, resTab: 'poster', menuOpen: false, narrow: false };
+  componentDidMount() {
+    try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && typeof s === 'object') { const c = s.completed || {}; if (c.aican || c.aicannot) c.aibasics = !!(c.aican && c.aicannot); if (c.pausepa || c.pauseuse) c.pausesteps = !!(c.pausepa && c.pauseuse); s.completed = c; if (s.screen === 'aican' || s.screen === 'aicannot') s.screen = 'aibasics'; if (s.screen === 'pausepa' || s.screen === 'pauseuse') s.screen = 'pausesteps'; if (!Array.isArray(s.order)) s.order = []; this.setState(s); } } catch (e) {}
+    this.onResize = () => this.setState({ narrow: window.innerWidth < 880 });
+    this.onResize(); window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+  componentDidUpdate() {
+    const { screen, name, openingNote, forget, completed, poui, hai, quiz, commit, commitStep, credId, order, resTab } = this.state;
+    try { localStorage.setItem(KEY, JSON.stringify({ screen, name, openingNote, forget, completed, poui, hai, quiz, commit, commitStep, credId, order, resTab })); } catch (e) {}
+  }
+  go(screen) { this.setState({ screen, menuOpen: false }); window.scrollTo(0, 0); }
+  async issueCredential() {
+    const s = this.state; const date = new Date().toLocaleDateString('en-TT', { day: 'numeric', month: 'long', year: 'numeric' });
+    let id = '';
+    try {
+      const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 6000);
+      const r = await fetch('/api/issue', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ name: s.name, date, commitment: s.commit, step: s.commitStep }), signal: ctl.signal });
+      clearTimeout(t);
+      if (r.ok) { const j = await r.json(); if (j && j.id) id = j.id; }
+    } catch (e) {}
+    if (!id) { let n = 1; try { n = (parseInt(localStorage.getItem(KEY + '-seq'), 10) || 0) + 1; localStorage.setItem(KEY + '-seq', String(n)); } catch (e) {} id = 'BLL01-L' + String(n).padStart(4, '0'); }
+    this._issuing = false; this.setState({ credId: id });
+  }
+  setPoui(i, patch) { this.setState(s => ({ poui: { ...s.poui, [i]: { ...(s.poui[i] || {}), ...patch } } })); }
+  setQuiz(i, patch) { this.setState(s => ({ quiz: { ...s.quiz, [i]: { ...(s.quiz[i] || {}), ...patch } } })); }
+  renderVals() {
+    const s = this.state, p = this.props;
+    const revealMode = p.revealMode ?? 'hint-then-reveal';
+    const idx = LESSONS.findIndex(l => l.id === s.screen);
+    const cur = idx >= 0 ? LESSONS[idx] : null;
+    const isLanding = s.screen === 'landing';
+    const completedCount = LESSONS.filter(l => s.completed[l.id]).length;
+    const progressPct = Math.round(completedCount / LESSONS.length * 100);
+    const flags = {}; LESSONS.forEach(l => { flags['s_' + l.id] = s.screen === l.id; });
+    const pillBase = 'padding:7px 14px;border-radius:999px;border:1px solid;font-size:13px;font-weight:600;cursor:pointer;';
+    const pill = on => pillBase + (on ? 'background:#1F7E7C;border-color:#1F7E7C;color:#FFFDF9' : 'background:transparent;border-color:rgba(22,48,71,.3);color:#163047');
+    const modules = MODS.map((m, mi) => ({
+      n: mi + 1, title: m.title, mins: m.mins,
+      lessons: LESSONS.filter(l => l.mod === mi + 1).map(l => {
+        const active = s.screen === l.id, done = !!s.completed[l.id];
+        return {
+          title: l.title, done, current: active ? 'page' : undefined, go: () => this.go(l.id),
+          style: 'display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:8px 10px;border:0;border-radius:8px;font-size:14px;line-height:1.35;cursor:pointer;' + (active ? 'background:rgba(31,126,124,.12);color:#163047;font-weight:600' : 'background:transparent;color:#323232'),
+          dotStyle: 'width:18px;height:18px;border-radius:50%;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;' + (done ? 'background:#5A8F63;color:#FFFDF9' : active ? 'border:2px solid #1F7E7C' : 'border:1.5px solid rgba(22,48,71,.35)')
+        };
+      })
+    }));
+    // POUI
+    const idRe = /\b\d{5,}\b|@|\b\d{3}[- ]?\d{4}\b|\b[A-Z][a-z]+ [A-Z][a-z]+\b/;
+    const pouiQs = POUI.map((q, i) => {
+      const st = s.poui[i] || {}; const answer = st.answer || ''; const hasText = answer.trim().length >= 10;
+      const hintShown = !!st.hint, revealed = !!st.revealed;
+      const anytime = revealMode === 'reveal-anytime';
+      return {
+        n: i + 1, id: 'poui-q' + (i + 1), q: q.q, hint: q.hint, model: q.model, answer, hintShown, revealed,
+        warn: idRe.test(answer),
+        status: revealed ? 'Revealed' : (hasText || hintShown) ? 'In progress' : 'Not started',
+        statusStyle: 'font-size:11px;padding:3px 9px;border-radius:999px;font-weight:600;letter-spacing:.04em;' + (revealed ? 'background:rgba(90,143,99,.15);color:#2f5a37' : (hasText || hintShown) ? 'background:rgba(205,155,52,.2);color:#6e4f12' : 'background:rgba(22,48,71,.08);color:#5b5b5b'),
+        showNext: revealed && i < POUI.length - 1,
+        onNext: () => { const el = document.getElementById('poui-q' + (i + 2)); if (!el) return; const r = el.getBoundingClientRect(); window.scrollTo({ top: window.scrollY + r.top - 160, behavior: 'smooth' }); setTimeout(() => el.focus({ preventScroll: true }), 400); },
+        showHintBtn: !hintShown && !revealed, showRevealBtn: !revealed && (anytime || hintShown),
+        revealDisabled: !anytime && !hasText, needText: !revealed && hintShown && !hasText && !anytime,
+        onAnswer: e => this.setPoui(i, { answer: e.target.value }), onHint: () => this.setPoui(i, { hint: true }), onReveal: () => this.setPoui(i, { revealed: true, hint: true })
+      };
+    });
+    const pouiRevealedCount = POUI.filter((q, i) => s.poui[i] && s.poui[i].revealed).length;
+    const pouiDots = POUI.map((q, i) => ({ style: 'width:10px;height:10px;border-radius:50%;' + (s.poui[i] && s.poui[i].revealed ? 'background:#5A8F63' : 'border:1.5px solid rgba(22,48,71,.35)') }));
+    // PAUSE ordering check
+    const ORDER_SHUFFLE = ['U', 'E', 'P', 'S', 'A'];
+    const orderDone = s.order.length === 5;
+    const SHORT = { P: 'Protect privacy', A: 'Ask why', U: 'Use judgement', S: 'Safeguard', E: 'Ensure connection' };
+    const orderOpts = ORDER_SHUFFLE.map(letter => { const used = s.order.includes(letter); return { label: letter + ' — ' + SHORT[letter], used, style: pill(used) + ';white-space:nowrap;min-height:40px' + (used ? ';opacity:.55' : ''), pick: () => this.setState(prev => { const expected = 'PAUSE'[prev.order.length]; return letter === expected ? { order: [...prev.order, letter], orderMiss: false } : { order: [], orderMiss: true }; }) }; });
+    const orderSlots = 'PAUSE'.split('').map((L, i) => { const got = s.order[i]; return { letter: got || '·', style: 'width:44px;height:44px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-family:' + FONT_H + ';font-weight:600;font-size:18px;' + (got ? 'background:#163047;color:#FFFDF9' : 'border:1.5px dashed rgba(22,48,71,.35);color:#9a9a9a') }; });
+    // Human or AI
+    const haiBtn = (cat, pick, correct) => {
+      const base = 'padding:7px 12px;border-radius:8px;border:1px solid;font-size:13px;font-weight:600;cursor:pointer;';
+      const tint = { ai: ['rgba(90,143,99,.18)', '#2f5a37', '#5A8F63'], human: ['rgba(22,48,71,.12)', '#163047', '#163047'], no: ['rgba(205,155,52,.22)', '#6e4f12', '#CD9B34'] }[cat];
+      if (!pick) return base + 'background:transparent;border-color:rgba(22,48,71,.3);color:#163047';
+      if (cat === correct) return base + `background:${tint[0]};border-color:${tint[2]};color:${tint[1]}`;
+      if (cat === pick) return base + 'background:transparent;border-color:#B0493A;color:#8a2f22;text-decoration:line-through';
+      return base + 'background:transparent;border-color:rgba(22,48,71,.15);color:#8a8a8a';
+    };
+    let haiRight = 0, haiDone = 0;
+    const haiItems = HAI.map((h, i) => {
+      const pick = s.hai[i]; const ok = !!pick && (pick === h.c || pick === h.alt); if (pick) { haiDone++; if (ok) haiRight++; }
+      const correct = pick === h.alt ? pick : h.c;
+      return {
+        text: h.t, picked: !!pick, isAi: pick === 'ai', isHuman: pick === 'human', isNo: pick === 'no',
+        cardStyle: 'display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 18px;border-radius:8px;background:#FFFDF9;border:1px solid ' + (!pick ? 'rgba(22,48,71,.12)' : ok ? 'rgba(90,143,99,.6)' : 'rgba(176,73,58,.5)'),
+        aiStyle: haiBtn('ai', pick, correct), humanStyle: haiBtn('human', pick, correct), noStyle: haiBtn('no', pick, correct),
+        feedback: pick ? (ok ? (pick === h.alt ? 'Also accepted — ' : 'Correct — ') : `Not quite — this is ${HAI_LABEL[h.c]}. `) + HAI_WHY[i] : '', fbColor: ok ? '#2f5a37' : '#8a2f22',
+        pickAi: () => this.setState(st => ({ hai: { ...st.hai, [i]: 'ai' } })), pickHuman: () => this.setState(st => ({ hai: { ...st.hai, [i]: 'human' } })), pickNo: () => this.setState(st => ({ hai: { ...st.hai, [i]: 'no' } }))
+      };
+    });
+    // Quiz
+    let quizScore = 0, quizRevealedCount = 0;
+    const quizItems = QUIZ.map((q, i) => {
+      const st = s.quiz[i] || {}; const picked = st.pick; const revealed = !!st.revealed; const ok = picked === q.ans;
+      if (revealed) { quizRevealedCount++; if (ok) quizScore++; }
+      return {
+        n: i + 1, q: q.q, crit: q.crit, revealed, notRevealed: !revealed, noPick: picked === undefined, why: q.why,
+        resultLabel: ok ? 'Correct.' : `Not quite — the answer is ${'ABCD'[q.ans]}.`,
+        resultStyle: 'padding:10px 14px;border-radius:8px;font-size:14px;flex:1;' + (ok ? 'background:rgba(90,143,99,.15);color:#2f5a37' : 'background:rgba(205,155,52,.18);color:#5a3f0b'),
+        reveal: () => this.setQuiz(i, { revealed: true }),
+        opts: q.opts.map((t, oi) => {
+          const on = picked === oi;
+          let bg = 'transparent', bd = 'rgba(22,48,71,.25)', col = '#323232';
+          if (on && !revealed) { bg = 'rgba(31,126,124,.12)'; bd = '#1F7E7C'; col = '#163047'; }
+          if (revealed && oi === q.ans) { bg = 'rgba(90,143,99,.18)'; bd = '#5A8F63'; col = '#2f5a37'; }
+          if (revealed && on && oi !== q.ans) { bd = '#B0493A'; col = '#8a2f22'; }
+          return { letter: 'ABCD'[oi], text: t, on, pick: () => this.setQuiz(i, { pick: oi }), style: `display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;padding:10px 14px;border-radius:8px;border:1px solid ${bd};background:${bg};color:${col};font-size:15px;line-height:1.4;cursor:pointer` };
+        })
+      };
+    });
+    const critOk = i => s.quiz[i] && s.quiz[i].revealed && s.quiz[i].pick === QUIZ[i].ans;
+    const critState = i => !(s.quiz[i] && s.quiz[i].revealed) ? 'pending' : critOk(i) ? 'ok' : 'wrong';
+    const critStyle = st => 'padding:24px;border-radius:8px;display:flex;flex-direction:column;gap:6px;border:1px solid;' + (st === 'ok' ? 'background:rgba(90,143,99,.15);border-color:#5A8F63;color:#2f5a37' : st === 'wrong' ? 'background:rgba(205,155,52,.18);border-color:#CD9B34;color:#5a3f0b' : 'background:#FFFDF9;border-color:rgba(22,48,71,.12);color:#5b5b5b');
+    const critLabel = st => st === 'ok' ? 'Correct' : st === 'wrong' ? 'Re-teach needed' : 'Not yet answered';
+    const q2 = critState(1), q4 = critState(3);
+    const quizSummary = QUIZ.map((q, i) => { const st = s.quiz[i] || {}; const rev = !!st.revealed; const ok = st.pick === q.ans; return { q: q.q, ans: 'ABCD'[q.ans], mark: rev ? (ok ? '✓' : '✗') : '–', markStyle: 'font-weight:700;width:18px;' + (rev ? (ok ? 'color:#5A8F63' : 'color:#B0493A') : 'color:#9a9a9a') }; });
+    const quizAll = quizRevealedCount === 5;
+    const critPass = critOk(1) && critOk(3);
+    const commitOpts = COMMITS.map(c => ({ label: c, on: s.commit === c, pick: () => this.setState({ commit: c }), style: pill(s.commit === c) }));
+    const stepOpts = STEPS.map(([letter, label]) => ({ letter, label, on: s.commitStep === letter, pick: () => this.setState({ commitStep: letter }), style: 'display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 14px;border-radius:8px;border:1px solid;min-width:150px;text-align:left;cursor:pointer;' + (s.commitStep === letter ? 'background:#163047;border-color:#163047;color:#FFFDF9' : 'background:transparent;border-color:rgba(22,48,71,.3);color:#163047') }));
+    const forgetOpts = STEPS.map(([letter, label]) => ({ label: letter + ' — ' + label, on: s.forget === letter, pick: () => this.setState({ forget: letter }), style: pill(s.forget === letter) }));
+    const commitOk = s.commit.trim().length > 0;
+    const allLessons = LESSONS.every(l => s.completed[l.id] || l.id === 'cert');
+    const certReady = allLessons && pouiRevealedCount === 5 && quizAll && critPass && commitOk;
+    if (certReady && !s.credId && !this._issuing) { this._issuing = true; setTimeout(() => this.issueCredential(), 0); }
+    const req = ok => 'width:24px;height:24px;border-radius:50%;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;' + (ok ? 'background:#5A8F63;color:#FFFDF9' : 'border:1.5px solid rgba(22,48,71,.35);color:#163047');
+    const tab = on => 'padding:8px 16px;border:0;font-family:' + FONT_H + ';font-weight:600;font-size:13px;cursor:pointer;' + (on ? 'background:#163047;color:#FFFDF9' : 'background:transparent;color:#163047');
+    const stepLabel = STEPS.find(x => x[0] === s.commitStep);
+    return {
+      ...flags, isLanding, inCourse: !isLanding, isLesson: !!cur, s_resources: s.screen === 'resources',
+      name: s.name, hasName: !!s.name, noName: !s.name, nameDraft: s.nameDraft, beginDisabled: s.nameDraft.trim().length < 2,
+      onNameDraft: e => this.setState({ nameDraft: e.target.value }),
+      onNameKey: e => { if (e.key === 'Enter' && s.nameDraft.trim().length >= 2) { this.setState({ name: s.nameDraft.trim() }); this.go('welcome'); } },
+      begin: () => { this.setState({ name: s.nameDraft.trim() }); this.go('welcome'); },
+      resume: () => { const first = LESSONS.find(l => !s.completed[l.id]); this.go(first ? first.id : 'cert'); },
+      startOver: () => { this.setState({ name: '', nameDraft: '', openingNote: '', forget: '', completed: {}, poui: {}, hai: {}, quiz: {}, commit: '', commitStep: '', credId: '', order: [], orderMiss: false }); },
+      goLanding: () => this.go('landing'), goPoui: () => this.go('poui'), goResources: () => this.go('resources'), goQuiz: () => this.go('quiz'),
+      completedCount, lessonCount: LESSONS.length, progressPct, progressBarStyle: `height:100%;width:${progressPct}%;background:#1F7E7C;border-radius:999px;transition:width .3s`,
+      narrow: s.narrow, showSidebar: !s.narrow || s.menuOpen, showScrim: s.narrow && s.menuOpen, toggleMenu: () => this.setState(st => ({ menuOpen: !st.menuOpen })),
+      sidebarStyle: 'display:flex;flex-direction:column;gap:14px;padding:20px 12px;background:#FFFDF9;border-right:1px solid rgba(22,48,71,.12);overflow-y:auto;' + (s.narrow ? 'position:fixed;top:0;left:0;bottom:0;width:300px;max-width:85vw;z-index:9;box-shadow:0 12px 40px rgba(22,48,71,.25)' : 'width:280px;flex-shrink:0;position:sticky;top:75px;align-self:flex-start;max-height:calc(100vh - 75px)'),
+      resourcesStyle: 'display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:8px 10px;border:0;border-radius:8px;font-size:14px;cursor:pointer;' + (s.screen === 'resources' ? 'background:rgba(31,126,124,.12);color:#163047;font-weight:600' : 'background:transparent;color:#1F7E7C;font-weight:600'),
+      modules,
+      curMod: cur ? cur.mod : '', curModTitle: cur ? MODS[cur.mod - 1].title : '', curIdx: idx + 1, curMins: cur ? cur.mins : '', curTitle: cur ? cur.title : '', curIntro: cur ? cur.intro : '', curOutcomes: cur ? cur.outcomes : [], curTakeaway: cur ? cur.takeaway : '',
+      curDone: cur ? !!s.completed[cur.id] : false, hasPrev: idx > 0,
+      nextLabel: idx === LESSONS.length - 1 ? 'Mark complete' : (cur && s.completed[cur.id] ? 'Continue' : 'Mark complete & continue'),
+      prev: () => this.go(LESSONS[idx - 1].id),
+      next: () => { if (!cur) return; this.setState(st => ({ completed: { ...st.completed, [cur.id]: true } })); if (idx < LESSONS.length - 1) this.go(LESSONS[idx + 1].id); else window.scrollTo(0, 0); },
+      openingNote: s.openingNote, onOpeningNote: e => this.setState({ openingNote: e.target.value }),
+      forgetOpts, forgetPicked: !!s.forget,
+      pouiQs, pouiRevealedCount, pouiDots,
+      orderOpts, orderSlots, orderDone, orderMiss: s.orderMiss && !orderDone,
+      hasOpeningNote: s.openingNote.trim().length > 0,
+      haiItems, haiScore: haiDone ? `${haiRight}/${haiDone} correct` : '',
+      quizItems, quizScore, quizPct: quizScore * 20, quizRevealedCount, quizIncomplete: !quizAll, quizSummary,
+      critQ2Style: critStyle(q2), critQ2Label: critLabel(q2), critQ4Style: critStyle(q4), critQ4Label: critLabel(q4),
+      needReteach: q2 === 'wrong' || q4 === 'wrong', q2Wrong: q2 === 'wrong', q4Wrong: q4 === 'wrong',
+      retakeCritical: () => { this.setState(st => { const q = { ...st.quiz }; [1, 3].forEach(i => { if (q[i] && q[i].pick !== QUIZ[i].ans) delete q[i]; }); return { quiz: q }; }); this.go('quiz'); },
+      commit: s.commit, onCommit: e => this.setState({ commit: e.target.value }), commitOpts, stepOpts, commitStepLabel: stepLabel ? stepLabel[0] + ' — ' + stepLabel[1] : '—',
+      certLocked: !certReady, certReady, credId: s.credId || 'BLL01-000000', req1Style: req(allLessons), req2Style: req(pouiRevealedCount === 5), req3Style: req(quizAll && critPass), req4Style: req(commitOk),
+      today: new Date().toLocaleDateString('en-TT', { day: 'numeric', month: 'long', year: 'numeric' }),
+      printPage: () => window.print(),
+      isPoster: s.resTab === 'poster', isHandout: s.resTab === 'handout', showPoster: () => this.setState({ resTab: 'poster' }), showHandout: () => this.setState({ resTab: 'handout' }),
+      posterTabStyle: tab(s.resTab === 'poster'), handoutTabStyle: tab(s.resTab === 'handout')
+    };
+  }
+}
+</script>
+</body>
+</html>

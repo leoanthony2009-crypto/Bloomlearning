@@ -1,0 +1,13 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/verify"
+  to = "/Verify.dc.html"
+  status = 200
+
+[[redirects]]
+  from = "/certificate"
+  to = "/Certificate.dc.html"
+  status = 200
