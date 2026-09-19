@@ -122,6 +122,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
       </div>
     </sc-for>
     <div style="height:1px;margin:8px 0;background:linear-gradient(to right,transparent,rgba(22,48,71,.18) 24px,rgba(22,48,71,.18) calc(100% - 24px),transparent)"></div>
+    <button onClick="{{ goRate }}" style="{{ rateStyle }}" style-hover="background:rgba(31,126,124,.08)"><svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M239.2 97.4a16.4 16.4 0 0 0-14.2-11l-56.4-4.3-21.6-52.8a16.4 16.4 0 0 0-30 0L95.4 82.1l-56.4 4.3a16.4 16.4 0 0 0-9.2 28.5l42.8 36.8-12.7 54.8a16.4 16.4 0 0 0 24.5 17.9L128 195.1l43.6 29.3a16.4 16.4 0 0 0 24.5-17.9l-12.7-54.8 42.8-36.8a16.4 16.4 0 0 0 5-17.5Z"/></svg>Rate this course</button>
     <button onClick="{{ goResources }}" style="{{ resourcesStyle }}" style-hover="background:rgba(31,126,124,.08)"><svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm0,144H32V64H224V192ZM64,96h8a8,8,0,0,0,0-16H64a8,8,0,0,0,0,16Zm0,32H192a8,8,0,0,0,0-16H64a8,8,0,0,0,0,16Zm0,32H192a8,8,0,0,0,0-16H64a8,8,0,0,0,0,16Z"/></svg><span>PAUSE poster &amp; handout</span></button>
   </nav>
   </sc-if>
@@ -498,7 +499,48 @@ button:disabled{opacity:.45;cursor:not-allowed}
     </sc-if>
     <sc-if value="{{ certReady }}">
       <p data-noprint="1" style="max-width:1123px;font-size:14px;color:#5b5b5b">Congratulations, {{ name }}. Download your certificate as an A4 PDF, save your digital badge, or copy a link to share. Finished on a shared device? Clear your notes from the start screen afterwards.</p>
+      <div data-noprint="1" style="max-width:1123px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:16px 20px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12)"><span style="font-family:'Poppins',sans-serif;font-weight:500;font-size:16px;color:#163047;flex:1;min-width:200px">One last thing — how was it?</span><button onClick="{{ goRate }}" style="min-height:44px;padding:10px 20px;border-radius:8px;border:1px solid #1F7E7C;background:transparent;color:#1F7E7C;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px;cursor:pointer" style-hover="background:rgba(31,126,124,.1)">Rate this course</button></div>
       <div data-printroot="1" style="max-width:1123px"><dc-import name="Certificate" recipient-name="{{ name }}" credential-id="{{ credId }}" issue-date="{{ today }}" commitment="{{ commit }}" hint-size="100%,560px"></dc-import></div>
+    </sc-if>
+  </sc-if>
+
+  <!-- RATE THIS COURSE -->
+  <sc-if value="{{ s_rate }}">
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:820px">
+      <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#1F7E7C">Feedback</div>
+      <h1 style="font-size:clamp(26px,3.2vw,34px);text-wrap:pretty">Rate this course</h1>
+      <p style="font-size:16px;color:#163047;text-wrap:pretty">Two minutes. Your rating and comments go to Bloom Learning Lab and shape the next Learning Lab.</p>
+    </div>
+    <sc-if value="{{ rateSent }}">
+      <div role="status" style="max-width:820px;padding:24px 26px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(90,143,99,.6);border-top:6px solid #5A8F63;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:10px;color:#2f5a37;font-family:'Poppins',sans-serif;font-weight:600;font-size:18px"><svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128 24a104 104 0 1 0 104 104A104.1 104.1 0 0 0 128 24Zm45.7 85.7-56 56a8 8 0 0 1-11.4 0l-24-24a8 8 0 0 1 11.4-11.4L112 148.7l50.3-50.4a8 8 0 0 1 11.4 11.4Z"/></svg>Thank you.</div>
+        <p style="font-size:15px">You rated the course {{ rateStars }} out of 5. {{ rateSentNote }}</p>
+        <button onClick="{{ rateEdit }}" style="align-self:flex-start;padding:6px 12px;border-radius:999px;border:1px solid rgba(22,48,71,.3);background:transparent;color:#163047;font-family:'Poppins',sans-serif;font-weight:600;font-size:12px;cursor:pointer" style-hover="background:rgba(22,48,71,.06)">Edit my rating</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ rateOpen }}">
+      <form onSubmit="{{ rateSubmit }}" style="max-width:820px;padding:24px 26px;border-radius:8px;background:#FFFDF9;border:1px solid rgba(22,48,71,.12);display:flex;flex-direction:column;gap:22px">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div id="rate-label" style="font-family:'Poppins',sans-serif;font-weight:500;font-size:18px;color:#163047">Overall, how would you rate this course?</div>
+          <div role="radiogroup" aria-labelledby="rate-label" style="display:flex;gap:6px;align-items:center">
+            <sc-for list="{{ stars }}" as="st" hint-placeholder-count="5"><button type="button" role="radio" aria-checked="{{ st.on }}" aria-label="{{ st.label }}" onClick="{{ st.pick }}" onMouseEnter="{{ st.hover }}" onMouseLeave="{{ st.leave }}" style="{{ st.style }}"><svg width="36" height="36" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M239.2 97.4a16.4 16.4 0 0 0-14.2-11l-56.4-4.3-21.6-52.8a16.4 16.4 0 0 0-30 0L95.4 82.1l-56.4 4.3a16.4 16.4 0 0 0-9.2 28.5l42.8 36.8-12.7 54.8a16.4 16.4 0 0 0 24.5 17.9L128 195.1l43.6 29.3a16.4 16.4 0 0 0 24.5-17.9l-12.7-54.8 42.8-36.8a16.4 16.4 0 0 0 5-17.5Z"/></svg></button></sc-for>
+            <span style="margin-left:8px;font-size:14px;color:#5b5b5b;min-width:110px">{{ rateHint }}</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div id="rate-useful-label" style="font-family:'Poppins',sans-serif;font-weight:500;font-size:16px;color:#163047">Which part was most useful?</div>
+          <div role="radiogroup" aria-labelledby="rate-useful-label" style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ usefulOpts }}" as="u" hint-placeholder-count="5"><button type="button" role="radio" aria-checked="{{ u.on }}" onClick="{{ u.pick }}" style="{{ u.style }}" style-hover="background:rgba(31,126,124,.1)">{{ u.label }}</button></sc-for>
+          </div>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:6px;font-family:'Poppins',sans-serif;font-weight:500;font-size:16px;color:#163047">What should we improve or build next?
+          <textarea value="{{ rateText }}" onChange="{{ onRateText }}" rows="4" placeholder="Optional — anything from copy to activities to what was missing." style="padding:12px 14px;border-radius:8px;border:1px solid rgba(22,48,71,.3);background:#fff;font-family:'Open Sans',sans-serif;font-weight:400;font-size:15px;color:#323232;resize:vertical;line-height:1.5"></textarea>
+        </label>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <button type="submit" disabled="{{ rateDisabled }}" style="min-height:44px;padding:10px 20px;border-radius:8px;border:1px solid #1F7E7C;background:#1F7E7C;color:#FFFDF9;font-family:'Poppins',sans-serif;font-weight:600;font-size:14px;cursor:pointer" style-hover="background:#163047;border-color:#163047">Submit rating</button>
+          <span style="font-size:13px;color:#5b5b5b">Your name is included so we can follow up; no other personal data is sent.</span>
+        </div>
+      </form>
     </sc-if>
   </sc-if>
 
@@ -633,18 +675,26 @@ const STEPS = [['P', 'Protect privacy'], ['A', 'Ask why AI is needed'], ['U', 'U
 const FONT_H = "'Poppins',sans-serif";
 
 class Component extends DCLogic {
-  state = { screen: 'landing', name: '', nameDraft: '', openingNote: '', forget: '', completed: {}, poui: {}, hai: {}, quiz: {}, commit: '', commitStep: '', credId: '', order: [], orderMiss: false, resTab: 'poster', menuOpen: false, narrow: false };
+  state = { screen: 'landing', name: '', nameDraft: '', openingNote: '', forget: '', completed: {}, poui: {}, hai: {}, quiz: {}, commit: '', commitStep: '', credId: '', order: [], orderMiss: false, rating: { stars: 0, useful: '', text: '', sent: false, synced: false }, rateHover: 0, resTab: 'poster', menuOpen: false, narrow: false };
   componentDidMount() {
-    try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && typeof s === 'object') { const c = s.completed || {}; if (c.aican || c.aicannot) c.aibasics = !!(c.aican && c.aicannot); if (c.pausepa || c.pauseuse) c.pausesteps = !!(c.pausepa && c.pauseuse); s.completed = c; if (s.screen === 'aican' || s.screen === 'aicannot') s.screen = 'aibasics'; if (s.screen === 'pausepa' || s.screen === 'pauseuse') s.screen = 'pausesteps'; if (!Array.isArray(s.order)) s.order = []; this.setState(s); } } catch (e) {}
+    try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && typeof s === 'object') { const c = s.completed || {}; if (c.aican || c.aicannot) c.aibasics = !!(c.aican && c.aicannot); if (c.pausepa || c.pauseuse) c.pausesteps = !!(c.pausepa && c.pauseuse); s.completed = c; if (s.screen === 'aican' || s.screen === 'aicannot') s.screen = 'aibasics'; if (s.screen === 'pausepa' || s.screen === 'pauseuse') s.screen = 'pausesteps'; if (!Array.isArray(s.order)) s.order = []; if (!s.rating) s.rating = { stars: 0, useful: '', text: '', sent: false, synced: false }; this.setState(s); } } catch (e) {}
     this.onResize = () => this.setState({ narrow: window.innerWidth < 880 });
     this.onResize(); window.addEventListener('resize', this.onResize);
   }
   componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
   componentDidUpdate() {
-    const { screen, name, openingNote, forget, completed, poui, hai, quiz, commit, commitStep, credId, order, resTab } = this.state;
-    try { localStorage.setItem(KEY, JSON.stringify({ screen, name, openingNote, forget, completed, poui, hai, quiz, commit, commitStep, credId, order, resTab })); } catch (e) {}
+    const { screen, name, openingNote, forget, completed, poui, hai, quiz, commit, commitStep, credId, order, rating, resTab } = this.state;
+    try { localStorage.setItem(KEY, JSON.stringify({ screen, name, openingNote, forget, completed, poui, hai, quiz, commit, commitStep, credId, order, rating, resTab })); } catch (e) {}
   }
   go(screen) { this.setState({ screen, menuOpen: false }); window.scrollTo(0, 0); }
+  async submitRating(e) {
+    if (e) e.preventDefault();
+    const r = this.state.rating; if (!r.stars) return;
+    let synced = false;
+    try { const res = await fetch('/api/rate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ name: this.state.name, stars: r.stars, useful: r.useful, text: r.text, credId: this.state.credId }) }); synced = res.ok; } catch (e2) {}
+    this.setState(st => ({ rating: { ...st.rating, sent: true, synced } }));
+    window.scrollTo(0, 0);
+  }
   async issueCredential() {
     const s = this.state; const date = new Date().toLocaleDateString('en-TT', { day: 'numeric', month: 'long', year: 'numeric' });
     let id = '';
@@ -767,13 +817,22 @@ class Component extends DCLogic {
     const tab = on => 'padding:8px 16px;border:0;font-family:' + FONT_H + ';font-weight:600;font-size:13px;cursor:pointer;' + (on ? 'background:#163047;color:#FFFDF9' : 'background:transparent;color:#163047');
     const stepLabel = STEPS.find(x => x[0] === s.commitStep);
     return {
-      ...flags, isLanding, inCourse: !isLanding, isLesson: !!cur, s_resources: s.screen === 'resources',
+      ...flags, isLanding, inCourse: !isLanding, isLesson: !!cur, s_resources: s.screen === 'resources', s_rate: s.screen === 'rate',
+      rateOpen: !s.rating.sent, rateSent: s.rating.sent, rateStars: s.rating.stars, rateText: s.rating.text, rateDisabled: !s.rating.stars,
+      rateSentNote: s.rating.synced ? 'Your feedback has been received.' : 'It is saved on this device and will be sent when the course is online.',
+      rateHint: ['', 'Poor', 'Fair', 'Good', 'Very good', 'Excellent'][s.rateHover || s.rating.stars] || 'Tap a star',
+      stars: [1, 2, 3, 4, 5].map(n => { const lit = n <= (s.rateHover || s.rating.stars); return { on: s.rating.stars === n, label: n + (n === 1 ? ' star' : ' stars'), style: 'width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:8px;background:transparent;cursor:pointer;color:' + (lit ? '#CD9B34' : 'rgba(22,48,71,.25)') + ';transition:color .12s', pick: () => this.setState(st => ({ rating: { ...st.rating, stars: n } })), hover: () => this.setState({ rateHover: n }), leave: () => this.setState({ rateHover: 0 }) }; }),
+      usefulOpts: ['PAUSE framework', 'POUI scenario', 'Human-or-AI game', 'Knowledge check', 'Poster & handout'].map(label => ({ label, on: s.rating.useful === label, style: pill(s.rating.useful === label), pick: () => this.setState(st => ({ rating: { ...st.rating, useful: st.rating.useful === label ? '' : label } })) })),
+      onRateText: e => { const v = e.target.value.slice(0, 600); this.setState(st => ({ rating: { ...st.rating, text: v } })); },
+      rateSubmit: e => this.submitRating(e), rateEdit: () => this.setState(st => ({ rating: { ...st.rating, sent: false } })),
+      goRate: () => this.go('rate'),
+      rateStyle: 'display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:8px 10px;border:0;border-radius:8px;font-size:14px;cursor:pointer;' + (s.screen === 'rate' ? 'background:rgba(31,126,124,.12);color:#155e5c;font-weight:600' : 'background:transparent;color:#163047'),
       name: s.name, hasName: !!s.name, noName: !s.name, nameDraft: s.nameDraft, beginDisabled: s.nameDraft.trim().length < 2,
       onNameDraft: e => this.setState({ nameDraft: e.target.value }),
       onNameKey: e => { if (e.key === 'Enter' && s.nameDraft.trim().length >= 2) { this.setState({ name: s.nameDraft.trim() }); this.go('welcome'); } },
       begin: () => { this.setState({ name: s.nameDraft.trim() }); this.go('welcome'); },
       resume: () => { const first = LESSONS.find(l => !s.completed[l.id]); this.go(first ? first.id : 'cert'); },
-      startOver: () => { this.setState({ name: '', nameDraft: '', openingNote: '', forget: '', completed: {}, poui: {}, hai: {}, quiz: {}, commit: '', commitStep: '', credId: '', order: [], orderMiss: false }); },
+      startOver: () => { this.setState({ name: '', nameDraft: '', openingNote: '', forget: '', completed: {}, poui: {}, hai: {}, quiz: {}, commit: '', commitStep: '', credId: '', order: [], orderMiss: false, rating: { stars: 0, useful: '', text: '', sent: false, synced: false } }); },
       goLanding: () => this.go('landing'), goPoui: () => this.go('poui'), goResources: () => this.go('resources'), goQuiz: () => this.go('quiz'),
       completedCount, lessonCount: LESSONS.length, progressPct, progressBarStyle: `height:100%;width:${progressPct}%;background:#1F7E7C;border-radius:999px;transition:width .3s`,
       narrow: s.narrow, showSidebar: !s.narrow || s.menuOpen, showScrim: s.narrow && s.menuOpen, toggleMenu: () => this.setState(st => ({ menuOpen: !st.menuOpen })),

@@ -7,6 +7,7 @@
 - `netlify/functions/issue.js` — POST `/api/issue` → creates a unique ID, stores the record
 - `netlify/functions/verify.js` — GET `/api/verify?id=` → public record (no IP, no free-text)
 - `netlify/functions/revoke.js` — POST `/api/revoke` (admin key) → marks a record revoked
+- `netlify/functions/rate.js` — POST `/api/rate` → stores a course rating (Blobs store `ratings`)
 - `netlify.toml`, `package.json` — routing + the Netlify Blobs dependency
 - `support.js`, `badge.svg`, `assets/` — runtime and media
 
@@ -33,7 +34,7 @@ curl -X POST https://<your-domain>/api/revoke \
 ```
 
 ## Viewing / exporting all records
-Netlify → your site → **Blobs** → store `credentials` — every record is a JSON file keyed by ID. Download from there when you need a register.
+Netlify → your site → **Blobs** → store `credentials` (certificates) or `ratings` (course feedback) — every record is a JSON file. Download from there when you need a register.
 
 ## Honest limits
 - Issuance is triggered client-side, so it confirms that a certificate *was issued by your site* to that name on that date — not that the person is who they say. That's normal for a completion certificate.

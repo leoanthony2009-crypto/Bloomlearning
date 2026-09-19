@@ -19,7 +19,7 @@ a:hover{color:#163047}
 button{font:inherit;cursor:pointer}
 :focus{outline:none}
 :focus-visible{outline:2px solid #1F7E7C;outline-offset:2px}
-@media print{[data-noprint]{display:none!important}body{background:#fff}[data-certscale]{transform:none!important;width:1123px!important;height:794px!important}[data-certwrap]{width:1123px!important;height:794px!important;overflow:visible!important;margin:0!important}}
+@media print{[data-noprint]{display:none!important}body{background:#fff}}
 </style>
 </helmet>
 <div style="display:flex;flex-direction:column;gap:16px;width:100%;max-width:1123px">
@@ -114,9 +114,24 @@ class Component extends DCLogic {
   fit() { if (!this.wrap) return; const w = this.wrap.clientWidth || 1123; const s = Math.min(1, w / 1123); if (Math.abs(s - this.state.scale) > 0.002) this.setState({ scale: s }); }
   qs(k) { try { return new URLSearchParams(location.search).get(k) || ''; } catch (e) { return ''; } }
   componentDidMount() {
-    this.pageStyle = document.createElement('style'); this.pageStyle.textContent = '@page{size:A4 landscape;margin:0}'; document.head.appendChild(this.pageStyle);
   }
-  componentWillUnmount() { if (this.ro) this.ro.disconnect(); if (this.pageStyle) this.pageStyle.remove(); }
+  printPdf() {
+    const node = this.wrap && this.wrap.querySelector('[data-certscale]');
+    if (!node) return;
+    const clone = node.cloneNode(true);
+    clone.style.transform = 'none'; clone.style.boxShadow = 'none';
+    const html = '<!doctype html><html><head><meta charset="utf-8"><title>Certificate — Bloom Learning Lab 01</title>' +
+      '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">' +
+      '<style>@page{size:A4 landscape;margin:0}html,body{margin:0;padding:0;background:#fff}body{width:1123px;height:794px;overflow:hidden;font-family:"Open Sans",system-ui,sans-serif;line-height:1.5;-webkit-print-color-adjust:exact;print-color-adjust:exact}h1,h2,p{margin:0}</style></head><body>' +
+      clone.outerHTML + '</body></html>';
+    const w = window.open('', '_blank', 'width=1180,height=860');
+    if (!w) { this.setState({ toolNote: 'Pop-up blocked — allow pop-ups for this site, then try again.' }); return; }
+    w.document.open(); w.document.write(html); w.document.close();
+    const go = () => { try { w.focus(); w.print(); } catch (e) {} };
+    if (w.document.fonts && w.document.fonts.ready) w.document.fonts.ready.then(() => setTimeout(go, 150)); else setTimeout(go, 800);
+    this.setState({ toolNote: 'In the print dialog choose “Save as PDF” (A4 landscape is preset).' });
+  }
+  componentWillUnmount() { if (this.ro) this.ro.disconnect(); }
   vals() {
     const p = this.props;
     const recipient = p.recipientName || this.qs('name') || 'Recipient Name';
@@ -155,7 +170,7 @@ class Component extends DCLogic {
       showTools: this.props.showTools ?? true,
       scale: this.state.scale, wrapH: Math.round(794 * this.state.scale), wrapRef: this.wrapRef,
       shareLabel: this.state.shareLabel, toolNote: this.state.toolNote,
-      printPdf: () => { this.setState({ toolNote: 'In the print dialog choose “Save as PDF”, A4 landscape.' }); setTimeout(() => window.print(), 50); },
+      printPdf: () => this.printPdf(),
       downloadBadge: () => this.downloadBadge(),
       copyShare: async () => {
         const url = this.shareUrl(v);
